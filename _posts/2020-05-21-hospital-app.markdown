@@ -59,9 +59,9 @@ application to Professor Wong and he awarded us with "best application" again.
 In the first iteration we stored user account information in plain text. Because of my interest in cyber
 security, I decided to lead the implementation of secure password storage for this application.
 I found a standalone password hashing library for Java called [bcrypt](https://github.com/patrickfav/bcrypt).
-We decided to use `bcrypt` because it is based on the blowfish cypher which is one of the slower hashing
-algorithms. We wanted a slower hashing algorithm because it would take an attacker longer was trying to brute
-force passwords it would take them much longer to crack the passwords.
+We decided to use `bcrypt` because it is based on the blowfish cipher, which is one of the slower hashing
+algorithms, and because it also salts the passwords before they are hashed. 
+These features make it much more difficult for an attacker to obtain the user passwords.
  
 
 ## Third Iteration
