@@ -5,7 +5,7 @@ date: 2020-07-29 07:00
 image: #replace with dbo3 image
 headerImage: true
 projects: false
-hidden: true
+hidden: false
 description: "A guide to jumpstarting your job at DB03"
 category: blog
 author: ioannis
