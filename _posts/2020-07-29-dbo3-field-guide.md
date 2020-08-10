@@ -42,11 +42,32 @@ There are 4 areas of the warehouse.
 
 A package starts off in the tractor trailer. An Amazon Associate (AA) takes the package from the tractor trailer
 and places it on the conveyor belt. Another AA with a (sticker gun) scans the the package and puts the printed sticker
-on the package. This sticker shows which bag that the package needs to be stowed in. Then the package goes to divert. 
-From here an AA *diverts* the package to the correct cluster.
-The chutes that the package can go through are labeled HJ, AB, CD, and EG. Once the package is put through one of those
-chutes another conveyor belt takes it to it's aisle. From there, it goes down another conveyor belt. This one is lined
-with shelves. An AA associate stands at the beginning of this conveyor belt and 
+on the package. This sticker shows which bag that the package needs to be stowed in.
+The packages are placed on the conveyor belts pictured below and go up the big iron to divert.
+
+![bigiron](/assets/images/fieldguide/bigiron.jpg)
+
+From here an AA *diverts* the package to the correct cluster by placing it in the correct chute.
+The chutes that the package can go through are labeled HJ, AB, CD, and EG. The picture below shows
+the where a diverter stands and the chutes that the packages go down.
+
+![divert]()
+
+
+Once the package is put through one of those
+chutes another conveyor belt takes it to it's aisle. From there, it goes down another conveyor belt like the one 
+pictured below. This is the CD aisle.
+
+![Topview](/assets/images/fieldguide/topview.jpg)
+ 
+An AA stands at the beginning of this conveyor belt and *splits* the packages. This means that
+they move the package to the correct side of the conveyor belt. This shows the chute that the packages
+come down from and where the splitter works.
+
+![split_area](/assets/images/fieldguide/split_area.jpg)
+
+*Pullers* stand on each side of the conveyor belt and put the packages onto the correct shelves.
+*Stowers* take packages from the shelves and put them in the correct bags.
 
 Scenes:
 AA unloading
