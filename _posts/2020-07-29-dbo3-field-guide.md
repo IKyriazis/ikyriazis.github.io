@@ -43,6 +43,9 @@ There are 4 areas of the warehouse.
 A package starts off in the tractor trailer. An Amazon Associate (AA) takes the package from the tractor trailer
 and places it on the conveyor belt. Another AA with a (sticker gun) scans the the package and puts the printed sticker
 on the package. This sticker shows which bag that the package needs to be stowed in.
+
+![sticker]()
+
 The packages are placed on the conveyor belts pictured below and go up the big iron to divert.
 
 ![bigiron](/assets/images/fieldguide/bigiron.jpg)
@@ -67,7 +70,10 @@ come down from and where the splitter works.
 ![split_area](/assets/images/fieldguide/split_area.jpg)
 
 *Pullers* stand on each side of the conveyor belt and put the packages onto the correct shelves.
-*Stowers* take packages from the shelves and put them in the correct bags.
+*Stowers* take packages from the shelves and put them in the correct bags. The picture below
+shows the shelf that pullers put packages on and the bags that the stowers move the packages to.
+
+![full_aisle](/assets/images/fieldguide/full_aisle.jpg)
 
 Scenes:
 AA unloading
