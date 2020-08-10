@@ -70,10 +70,10 @@ come down from and where the splitter works.
 ![split_area](/assets/images/fieldguide/split_area.jpg)
 
 *Pullers* stand on each side of the conveyor belt and put the packages onto the correct shelves.
-*Stowers* take packages from the shelves and put them in the correct bags. The picture below
-shows the shelf that pullers put packages on and the bags that the stowers move the packages to.
+*Stowers* take packages from the shelves and put them in the correct bags. The video below
+shows a stower moving packages from the shelf into the bags.
 
-![full_aisle](/assets/images/fieldguide/full_aisle.jpg)
+![stowing](/assets/images/fieldguide/VID_20200806_085431.mp4)
 
 Scenes:
 AA unloading
