@@ -59,7 +59,7 @@ the where a diverter stands and the chutes that the packages go down.
 
 Once the package is put through one of those
 chutes, another conveyor belt takes it to its aisle. From there, it goes down another conveyor belt like the one 
-pictured below. This is the CD aisle.
+pictured below. This is the CD cluster.
 
 ![Topview](/assets/images/fieldguide/topview.jpg)
  
