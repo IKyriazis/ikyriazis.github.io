@@ -73,7 +73,7 @@ come down from and where the splitter works.
 *Stowers* take packages from the shelves and put them in the correct bags. The video below
 shows a stower moving packages from the shelf into the bags.
 
-![stowing](/assets/images/fieldguide/VID_20200806_085431.mp4)
+![stowing](/assets/images/fieldguide/VID_20200806_085431.gif)
 
 Scenes:
 AA unloading
