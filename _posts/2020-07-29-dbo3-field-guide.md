@@ -12,17 +12,10 @@ author: ioannis
 externalLink: false
 ---
 
-# Familiarizing Yourself With the Warehouse
-There are 4 areas of the warehouse.
-
-// add images of each section
-##HJ
-
-##AB
-
-##CD
-
-##EG
+# Warehouse Structure
+There are 4 areas of the warehouse made up of 2 clusters each. That makes 8 clusters total.
+Each cluster is made up of many aisles. Aisles are made up of 14 bags and 3 oversized package
+racks.
 
 # Journey of a Package Through the Warehouse
 
@@ -79,16 +72,44 @@ about each one.
 
 ## Unload
 
-AA
+AAs take packages out of tractor trailers, boxes, and carts and place them onto the conveyor belts.
 
 ## Induct
 
+AAs have a smartphone-like device connected to a scanner capable of printing sticky labels.
+Inducters scan the shipping label of the package on the conveyor belt and the scanner prints out
+a label for the inducter to stick on the package they scanned.
+
 ## Divert
 
-## Pulling
+AAs send packages down the correct chutes based on their sticker. If a package has no sticker
+or there is no cluster label on the package then the AA sends the package down the CD chute.
 
-## Stowing
+## Split
 
-## Picking
+AAs move the package to the correct side of the conveyor belt. If there is no label on the
+package or if the package is in the wrong cluster, the splitter moves the package onto 
+a side shelf.
+
+## Pull
+
+AAs stand between the conveyor belt and the aisles. They take the packages off the conveyor belt
+and put them on the shelf of the correct aisle. When they aren't moving packages from the
+conveyor belt to the shelves, they are reorganizing the shelves to make it easier for the
+stower to stow.
+
+## Stow
+
+AAs have a device connected to a scanner. The AA takes a package from the shelf, scans the
+shipping label on it and puts the package in the correct bag according to the yellow sticker.
+Then the AA scans the label on the inside of the bag to show that the package has been put in the
+correct bag.
+
+## Pick
+
+AAs have a device connected to a scanner. They find an empty U-boat and scan the label on it.
+Then the device tells the picker which bags and oversize packages to load onto the U-boat.
+After the AA collects all of the bags and oversize packages, the AA *stages* the U-boat in
+the correct location by scanning the tag on the floor.
 
 
