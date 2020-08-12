@@ -24,27 +24,15 @@ There are 4 areas of the warehouse.
 
 ##EG
 
-# Jobs you can do
-
-## Unload
-
-## Induct
-
-## Divert
-
-## Pulling
-
-## Stowing
-
-## Picking
-
 # Journey of a Package Through the Warehouse
 
 A package starts off in the tractor trailer. An Amazon Associate (AA) takes the package from the tractor trailer
 and places it on the conveyor belt. Another AA with a (sticker gun) scans the the package and puts the printed sticker
 on the package. This sticker shows which bag that the package needs to be stowed in.
 
-![sticker](/assets/images/fieldguide/sticker.jpg)
+| ![sticker](/assets/images/fieldguide/sticker.jpg) |
+|:--:|
+| *This sticker shows that the package must go in the bag 4D in aisle 5 of the C cluster.* |
 
 The packages are placed on the conveyor belts pictured below and go up the big iron to divert.
 
@@ -75,27 +63,32 @@ shows a stower moving packages from the shelf into the bags.
 
 ![stowing](/assets/images/fieldguide/VID_20200806_085431.gif)
 
-Scenes:
-AA unloading
+After all the packages are stowed in their bags we *pick* the bags and put them on a U-boat.
+Sometimes if the packages don't fit in bags they are stored outside of a bag.
+The picture below shows two U-boats filled with bags and oversize packages.
 
-AA inducting
+![pick](/assets/images/fieldguide/pick_carts.jpg)
 
-AA diverting
+The bags and packages wait on this cart until the Amazon delivery drivers pack everything
+into their vans.
 
-AA splitting
+# Jobs you can do
 
-AA pulling
+I explained these jobs in little detail in the previous section. Here is more information
+about each one.
 
-AA stowing
+## Unload
 
-AA picking
+AA
+
+## Induct
+
+## Divert
+
+## Pulling
+
+## Stowing
+
+## Picking
 
 
-
-
-Sometimes the (sticker gun) messes up or the
-AA is overwhelmed and a package is missing a sticker. If a package is missing a sticker then the diverter
-
-These 
-
-Hay 4 secciones del warehouse
