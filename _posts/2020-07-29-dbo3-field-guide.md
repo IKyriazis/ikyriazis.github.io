@@ -44,7 +44,7 @@ A package starts off in the tractor trailer. An Amazon Associate (AA) takes the 
 and places it on the conveyor belt. Another AA with a (sticker gun) scans the the package and puts the printed sticker
 on the package. This sticker shows which bag that the package needs to be stowed in.
 
-![sticker]()
+![sticker](/assets/images/fieldguide/sticker.jpg)
 
 The packages are placed on the conveyor belts pictured below and go up the big iron to divert.
 
