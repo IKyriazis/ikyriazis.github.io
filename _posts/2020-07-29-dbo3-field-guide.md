@@ -2,7 +2,7 @@
 title: "New Employee's Field Guide to DB03"
 layout: post
 date: 2020-07-29 07:00
-image: #replace with dbo3 image
+image: /assets/images/fieldguide/logo.png
 headerImage: true
 projects: true
 hidden: false
@@ -12,7 +12,7 @@ author: ioannis
 externalLink: false
 ---
 
-# Familiarizing yourself with the warehouse
+# Familiarizing Yourself With the Warehouse
 There are 4 areas of the warehouse.
 
 // add images of each section
@@ -46,7 +46,7 @@ the where a diverter stands and the chutes that the packages go down.
 
 
 Once the package is put through one of those
-chutes, another conveyor belt takes it to its aisle. From there, it goes down another conveyor belt like the one 
+chutes, another conveyor belt takes it to its cluster. From there, it goes down another conveyor belt like the one 
 pictured below. This is the CD cluster.
 
 ![Topview](/assets/images/fieldguide/topview.jpg)
