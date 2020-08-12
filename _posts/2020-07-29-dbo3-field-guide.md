@@ -54,7 +54,7 @@ From here an AA *diverts* the package to the correct cluster by placing it in th
 The chutes that the package can go through are labeled HJ, AB, CD, and EG. The picture below shows
 the where a diverter stands and the chutes that the packages go down.
 
-![divert]()
+![divert](/assets/images/fieldguide/divert.jpg)
 
 
 Once the package is put through one of those
