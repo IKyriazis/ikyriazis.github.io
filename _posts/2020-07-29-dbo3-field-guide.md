@@ -65,7 +65,7 @@ The picture below shows two U-boats filled with bags and oversize packages.
 The bags and packages wait on this cart until the Amazon delivery drivers pack everything
 into their vans.
 
-# Jobs you can do
+# Available Tasks
 
 I explained these jobs in little detail in the previous section. Here is more information
 about each one.
