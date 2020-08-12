@@ -27,7 +27,7 @@ There are 4 areas of the warehouse.
 # Journey of a Package Through the Warehouse
 
 A package starts off in the tractor trailer. An Amazon Associate (AA) takes the package from the tractor trailer
-and places it on the conveyor belt. Another AA with a (sticker gun) scans the the package and puts the printed sticker
+and places it on the conveyor belt. Another AA with a label maker scans the the package and sticks the label
 on the package. This sticker shows which bag that the package needs to be stowed in.
 
 | ![sticker](/assets/images/fieldguide/sticker.jpg) |
