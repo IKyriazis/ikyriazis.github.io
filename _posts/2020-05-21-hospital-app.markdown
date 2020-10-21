@@ -80,12 +80,14 @@ Password from their authenticator app (We used an implementation of two-factor a
 
 !!insert video of logging in with google authenticator
 
-    private static String getTOTPCode(String secretKey) {
-        Base32 base32 = new Base32();
-        byte[] bytes = base32.decode(secretKey);
-        String hexKey = Hex.encodeHexString(bytes);
-        return TOTP.getOTP(hexKey);
-      }
+```java
+private static String getTOTPCode(String secretKey) {
+    Base32 base32 = new Base32();
+    byte[] bytes = base32.decode(secretKey);
+    String hexKey = Hex.encodeHexString(bytes);
+    return TOTP.getOTP(hexKey);
+  }
+```
 
 ### RFID Login
 This was my favorite feature out of the entire application because it was the most fun to implement and it's (objectively)
@@ -99,6 +101,7 @@ stores were closed so it was very lucky that I had this equipment at home.
 I had experience with using the RFID reader before, I had a program that printed the data of the RFID card to the
 serial communications port. The arduino sketch below is what I used. I found it from a tutorial online.
 
+```arduino
     // RFID reader ID-12 for Arduino 
     // Based on code by BARRAGAN <https://people.interaction-ivrea.it/h.barragan> 
     // and code from HC Gilje - https://hcgilje.wordpress.com/resources/rfid_id12_tagreader/
@@ -170,11 +173,14 @@ serial communications port. The arduino sketch below is what I used. I found it 
         }
       }
     }
+```
+    
 
 All I had to do was make the kiosk application communicate with the arduino. For this, I found a library that allowed
 the kiosk application to read from the serial communication ports. The library is called [jSerialComm](https://fazecast.github.io/jSerialComm/).
 The code in the login controller that initiates the RFID scan and handles if it is successful:
 
+```java
     String scannedCode = scanRFID();
     if (scannedCode != null) {
       String localUsername = eDB.getUsername(scannedCode);
@@ -201,10 +207,13 @@ The code in the login controller that initiates the RFID scan and handles if it 
           });
     }
     });
+```
+    
 
 The code that polls the serial communication port for an RFID card:
 
-    public String scanRFID() {
+```java
+public String scanRFID() {
         try {
           comPort.openPort();
           // throws out stuff that was there before we were ready to read
@@ -237,6 +246,8 @@ The code that polls the serial communication port for an RFID card:
           return null;
         }
       }
+```
+    
 
 Below are a couple of demos on how the RFID login works.
 
