@@ -15,6 +15,8 @@ layout: page
 	<li>HTML</li>
 	<li>CSS</li>
 	<li>Javascript</li>
+	<li>Node.JS</li>
+	<li>RESTful APIs</li>
 	<li>Python</li>
 	<li>MySQL - Apache Derby</li>
 	<li>Scrum</li>
@@ -24,7 +26,7 @@ layout: page
 <h2>Projects</h2>
 
 <ul>
-	<li><a href="https://github.com/">Lorem Lorem</a></li>
-	<li><a href="https://github.com/">Ipsum Dolor</a></li>
-	<li><a href="https://github.com/">Dolor Lorem</a></li>
+	<li><a href="https://canvaskicks.store/">Canvas Kicks Store</a></li>
+	<li><a href="http://ioannis.ky/hospital-app/">BW Hospital Kiosk App</a></li>
+	<li><a href="http://ioannis.ky/dbo3-field-guide/">DBO3 Beginner's Field Guide</a></li>
 </ul>
