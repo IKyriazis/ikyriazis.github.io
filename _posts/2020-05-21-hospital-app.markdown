@@ -80,7 +80,6 @@ Password from their authenticator app (We used an implementation of two-factor a
 
 <insert video of logging in with google authenticator>
 
-
     private static String getTOTPCode(String secretKey) {
         Base32 base32 = new Base32();
         byte[] bytes = base32.decode(secretKey);
@@ -176,37 +175,34 @@ All I had to do was make the kiosk application communicate with the arduino. For
 the kiosk application to read from the serial communication ports. The library is called [jSerialComm](https://fazecast.github.io/jSerialComm/).
 The code in the login controller that initiates the RFID scan and handles if it is successful:
 
-
-     String scannedCode = scanRFID();
-                if (scannedCode != null) {
-                  String localUsername = eDB.getUsername(scannedCode);
-                  if (!localUsername.isEmpty()) {
-                    username = localUsername;
-                    eDB.rfidLogin(localUsername);
-                    Platform.runLater(this::login);
-                  } else {
-                    // popup that rfid is not in the database
-                    Platform.runLater(
-                        () -> {
-                          clickedBlockerPane();
-                          DialogUtil.simpleErrorDialog(
-                              rootPane, "Invalid Card", "The card you used doesn't belong to anyone");
-                        });
-                  }
-                } else {
-                  // popup that rfid scan went wrong
-                  Platform.runLater(
-                      () -> {
-                        clickedBlockerPane();
-                        DialogUtil.simpleErrorDialog(
-                            rootPane, "Failed Read", "Something went wrong while scanning the card");
-                      });
-                }
-              });
-
+    String scannedCode = scanRFID();
+    if (scannedCode != null) {
+      String localUsername = eDB.getUsername(scannedCode);
+      if (!localUsername.isEmpty()) {
+        username = localUsername;
+        eDB.rfidLogin(localUsername);
+        Platform.runLater(this::login);
+      } else {
+        // popup that rfid is not in the database
+        Platform.runLater(
+            () -> {
+              clickedBlockerPane();
+              DialogUtil.simpleErrorDialog(
+                  rootPane, "Invalid Card", "The card you used doesn't belong to anyone");
+            });
+      }
+    } else {
+      // popup that rfid scan went wrong
+      Platform.runLater(
+          () -> {
+            clickedBlockerPane();
+            DialogUtil.simpleErrorDialog(
+                rootPane, "Failed Read", "Something went wrong while scanning the card");
+          });
+    }
+    });
 
 The code that polls the serial communication port for an RFID card:
-
 
     public String scanRFID() {
         try {
@@ -241,7 +237,6 @@ The code that polls the serial communication port for an RFID card:
           return null;
         }
       }
-
 
 Below are a couple of demos on how the RFID login works.
 
