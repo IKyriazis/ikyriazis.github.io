@@ -178,7 +178,9 @@ void loop () {
 All I had to do was make the kiosk application communicate with the arduino. For this, I found a library that allowed
 the kiosk application to read from the serial communication ports. The library is called [jSerialComm](https://fazecast.github.io/jSerialComm/).
 The code in the login controller that initiates the RFID scan and handles if it is successful:
+
 ```java
+
  String scannedCode = scanRFID();
             if (scannedCode != null) {
               String localUsername = eDB.getUsername(scannedCode);
@@ -208,7 +210,9 @@ The code in the login controller that initiates the RFID scan and handles if it 
 ```
 
 The code that polls the serial communication port for an RFID card:
+
 ```java
+
 public String scanRFID() {
     try {
       comPort.openPort();
