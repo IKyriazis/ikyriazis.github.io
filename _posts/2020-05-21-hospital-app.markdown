@@ -31,9 +31,9 @@ services. Some of the service requests we implemented:
 Before we started programming the first iteration of our application, we had to gather
 "requirements". This consisted of creating surveys and interview questions to see how to best
 implement the requirements and features of our application according to potential users, such
-as, nurses and hospital visitors. After analyzing the results we obtained from our surveys and
+as, nurses and hospital visitors. After analyzing the results, we obtained from our surveys and
 interviews, we created *user stories*, a hypothetical scenario of a user interacting with the
-kiosk to use a specific feature. Then, we assigned these user stories to each other and began
+kiosk to use a specific feature. Then, we assigned these user stories to members of our group and began
 programming our application. After a week of daily *scrums* (20-minute meetings where everyone
 says what they did the past day, what they're going to do today, and any problems they are 
 facing), and almost daily 2-hour work meetings, we finished our *sprint* (goals that we set out
@@ -61,8 +61,29 @@ security, I decided to lead the implementation of secure password storage for th
 I found a standalone password hashing library for Java called [bcrypt](https://github.com/patrickfav/bcrypt).
 We decided to use `bcrypt` because it is based on the blowfish cipher, which is one of the slower hashing
 algorithms, and because it also salts the passwords before they are hashed. 
-These features make it much more difficult for an attacker to obtain the user passwords.
- 
+These features make it much more difficult for an attacker to obtain the user passwords. 
 
 ## Third Iteration
+We added some really cool features in this iteration.
+### Two Factor Authentication
+For starters, I lead the implementation multi-factor authentication.
+We deemed it necessary to include multi factor authentication so that if an employee account is compromised, a 
+malicious user wouldn't be allowed to log in. This implementation was simple in theory: pop a QR code onto the screen,
+let the user scan it, and have them enter the six digit code. It was also pretty simple when I started coding it. All
+I had to do was find a tutorial online that guided me through the steps. The tutorial used a Time-Based One-Time Password
+algorithm that I found useful. When a user logs in, the application gets that user's secret key from the database. With
+that secret key, the one time password is generated. If the code that the user enters is the same as the code that gets
+generated from the secret key, the user successfully logs in. If not, log in fails. The user gets their Time-Based One-Time
+Password from their authenticator app (We used an implementation of two-factor authentication that works with Google Authenticator).
+
+```java
+private static String getTOTPCode(String secretKey) {
+    Base32 base32 = new Base32();
+    byte[] bytes = base32.decode(secretKey);
+    String hexKey = Hex.encodeHexString(bytes);
+    return TOTP.getOTP(hexKey);
+  }
+```
+### RFID Login
+
 
