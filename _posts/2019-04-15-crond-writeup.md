@@ -1,5 +1,5 @@
 ---
-title: "Writeup for crond challenge at WPICTF 2019"
+title: "Writeup for Crond Challenge at WPICTF 2019"
 layout: post
 date: 2019-04-15 07:00
 projects: true
