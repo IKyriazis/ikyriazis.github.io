@@ -78,7 +78,7 @@ that secret key, the one time password is generated. If the code that the user e
 generated from the secret key, the user successfully logs in. If not, log in fails. The user gets their Time-Based One-Time
 Password from their authenticator app (We used an implementation of two-factor authentication that works with Google Authenticator).
 
-<insert video of logging in with google authenticator>
+!!insert video of logging in with google authenticator
 
     private static String getTOTPCode(String secretKey) {
         Base32 base32 = new Base32();
@@ -92,7 +92,7 @@ This was my favorite feature out of the entire application because it was the mo
 the coolest. I was solely responsible for implementing an RFID login as I was the only one with an arduino, RFID reader, and
 RFID cards. 
 
-<insert image of all materials>
+!!insert image of all materials
 
 Keep in mind that this was during the most extreme part of the pandemic where shipping took forever and most
 stores were closed so it was very lucky that I had this equipment at home.
@@ -240,9 +240,9 @@ The code that polls the serial communication port for an RFID card:
 
 Below are a couple of demos on how the RFID login works.
 
-<insert video of adding account with rfid card>
+!!insert video of adding account with rfid card
 
-<insert video of logging in with rfid card>
+!!insert video of logging in with rfid card
 
 ## Final Iteration
 During this iteration we decided to refactor our code and polish all of our features up. We didn't add any new features,
