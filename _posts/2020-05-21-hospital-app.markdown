@@ -80,15 +80,13 @@ Password from their authenticator app (We used an implementation of two-factor a
 
 <insert video of logging in with google authenticator>
 
-``` java
 
-private static String getTOTPCode(String secretKey) {
-    Base32 base32 = new Base32();
-    byte[] bytes = base32.decode(secretKey);
-    String hexKey = Hex.encodeHexString(bytes);
-    return TOTP.getOTP(hexKey);
-  }
-```
+    private static String getTOTPCode(String secretKey) {
+        Base32 base32 = new Base32();
+        byte[] bytes = base32.decode(secretKey);
+        String hexKey = Hex.encodeHexString(bytes);
+        return TOTP.getOTP(hexKey);
+      }
 
 ### RFID Login
 This was my favorite feature out of the entire application because it was the most fun to implement and it's (objectively)
@@ -102,152 +100,148 @@ stores were closed so it was very lucky that I had this equipment at home.
 I had experience with using the RFID reader before, I had a program that printed the data of the RFID card to the
 serial communications port. The arduino sketch below is what I used. I found it from a tutorial online.
 
-```arduino
-// RFID reader ID-12 for Arduino 
-// Based on code by BARRAGAN <https://people.interaction-ivrea.it/h.barragan> 
-// and code from HC Gilje - https://hcgilje.wordpress.com/resources/rfid_id12_tagreader/
-// Modified for Arduino by djmatic
-// Modified for ID-12 and checksum by Martijn The - https://www.martijnthe.nl/
-//
-// Use the drawings from HC Gilje to wire up the ID-12.
-// Remark: disconnect the rx serial wire to the ID-12 when uploading the sketch
-
-
-void setup() {
-  Serial.begin(9600);                                 // connect to the serial port
-}
-
-void loop () {
-  byte i = 0;
-  byte val = 0;
-  byte code[6];
-  byte checksum = 0;
-  byte bytesread = 0;
-  byte tempbyte = 0;
-
-  if(Serial.available() > 0) {
-    if((val = Serial.read()) == 2) {                  // check for header 
-      bytesread = 0; 
-      while (bytesread < 12) {                        // read 10 digit code + 2 digit checksum
-        if( Serial.available() > 0) { 
-          val = Serial.read();
-          if((val == 0x0D)||(val == 0x0A)||(val == 0x03)||(val == 0x02)) { // if header or stop bytes before the 10 digit reading 
-            break;                                    // stop reading
-          }
-
-          // Do Ascii/Hex conversion:
-          if ((val >= '0') && (val <= '9')) {
-            val = val - '0';
-          } else if ((val >= 'A') && (val <= 'F')) {
-            val = 10 + val - 'A';
-          }
-
-          // Every two hex-digits, add byte to code:
-          if (bytesread & 1 == 1) {
-            // make some space for this hex-digit by
-            // shifting the previous hex-digit with 4 bits to the left:
-            code[bytesread >> 1] = (val | (tempbyte << 4));
-
-            if (bytesread >> 1 != 5) {                // If we're at the checksum byte,
-              checksum ^= code[bytesread >> 1];       // Calculate the checksum... (XOR)
-            };
-          } else {
-            tempbyte = val;                           // Store the first hex digit first...
-          };
-
-          bytesread++;                                // ready to read next digit
-        } 
-      } 
-
-      // Output to Serial:
-
-      if (bytesread == 12) {                          // if 12 digit read is complete
-        for (i=0; i<5; i++) {
-          if (code[i] < 16) Serial.print("0");
-          Serial.print(code[i], HEX);
-        }
-        Serial.print(code[5] == checksum ? " p" : " f");
-        Serial.println();
-      }
-
-      bytesread = 0;
+    // RFID reader ID-12 for Arduino 
+    // Based on code by BARRAGAN <https://people.interaction-ivrea.it/h.barragan> 
+    // and code from HC Gilje - https://hcgilje.wordpress.com/resources/rfid_id12_tagreader/
+    // Modified for Arduino by djmatic
+    // Modified for ID-12 and checksum by Martijn The - https://www.martijnthe.nl/
+    //
+    // Use the drawings from HC Gilje to wire up the ID-12.
+    // Remark: disconnect the rx serial wire to the ID-12 when uploading the sketch
+    
+    
+    void setup() {
+      Serial.begin(9600);                                 // connect to the serial port
     }
-  }
-}
-```
+    
+    void loop () {
+      byte i = 0;
+      byte val = 0;
+      byte code[6];
+      byte checksum = 0;
+      byte bytesread = 0;
+      byte tempbyte = 0;
+    
+      if(Serial.available() > 0) {
+        if((val = Serial.read()) == 2) {                  // check for header 
+          bytesread = 0; 
+          while (bytesread < 12) {                        // read 10 digit code + 2 digit checksum
+            if( Serial.available() > 0) { 
+              val = Serial.read();
+              if((val == 0x0D)||(val == 0x0A)||(val == 0x03)||(val == 0x02)) { // if header or stop bytes before the 10 digit reading 
+                break;                                    // stop reading
+              }
+    
+              // Do Ascii/Hex conversion:
+              if ((val >= '0') && (val <= '9')) {
+                val = val - '0';
+              } else if ((val >= 'A') && (val <= 'F')) {
+                val = 10 + val - 'A';
+              }
+    
+              // Every two hex-digits, add byte to code:
+              if (bytesread & 1 == 1) {
+                // make some space for this hex-digit by
+                // shifting the previous hex-digit with 4 bits to the left:
+                code[bytesread >> 1] = (val | (tempbyte << 4));
+    
+                if (bytesread >> 1 != 5) {                // If we're at the checksum byte,
+                  checksum ^= code[bytesread >> 1];       // Calculate the checksum... (XOR)
+                };
+              } else {
+                tempbyte = val;                           // Store the first hex digit first...
+              };
+    
+              bytesread++;                                // ready to read next digit
+            } 
+          } 
+    
+          // Output to Serial:
+    
+          if (bytesread == 12) {                          // if 12 digit read is complete
+            for (i=0; i<5; i++) {
+              if (code[i] < 16) Serial.print("0");
+              Serial.print(code[i], HEX);
+            }
+            Serial.print(code[5] == checksum ? " p" : " f");
+            Serial.println();
+          }
+    
+          bytesread = 0;
+        }
+      }
+    }
 
 All I had to do was make the kiosk application communicate with the arduino. For this, I found a library that allowed
 the kiosk application to read from the serial communication ports. The library is called [jSerialComm](https://fazecast.github.io/jSerialComm/).
 The code in the login controller that initiates the RFID scan and handles if it is successful:
 
-```java
 
- String scannedCode = scanRFID();
-            if (scannedCode != null) {
-              String localUsername = eDB.getUsername(scannedCode);
-              if (!localUsername.isEmpty()) {
-                username = localUsername;
-                eDB.rfidLogin(localUsername);
-                Platform.runLater(this::login);
-              } else {
-                // popup that rfid is not in the database
-                Platform.runLater(
-                    () -> {
-                      clickedBlockerPane();
-                      DialogUtil.simpleErrorDialog(
-                          rootPane, "Invalid Card", "The card you used doesn't belong to anyone");
-                    });
-              }
-            } else {
-              // popup that rfid scan went wrong
-              Platform.runLater(
-                  () -> {
-                    clickedBlockerPane();
-                    DialogUtil.simpleErrorDialog(
-                        rootPane, "Failed Read", "Something went wrong while scanning the card");
-                  });
-            }
-          });
-```
+     String scannedCode = scanRFID();
+                if (scannedCode != null) {
+                  String localUsername = eDB.getUsername(scannedCode);
+                  if (!localUsername.isEmpty()) {
+                    username = localUsername;
+                    eDB.rfidLogin(localUsername);
+                    Platform.runLater(this::login);
+                  } else {
+                    // popup that rfid is not in the database
+                    Platform.runLater(
+                        () -> {
+                          clickedBlockerPane();
+                          DialogUtil.simpleErrorDialog(
+                              rootPane, "Invalid Card", "The card you used doesn't belong to anyone");
+                        });
+                  }
+                } else {
+                  // popup that rfid scan went wrong
+                  Platform.runLater(
+                      () -> {
+                        clickedBlockerPane();
+                        DialogUtil.simpleErrorDialog(
+                            rootPane, "Failed Read", "Something went wrong while scanning the card");
+                      });
+                }
+              });
+
 
 The code that polls the serial communication port for an RFID card:
 
-```java
 
-public String scanRFID() {
-    try {
-      comPort.openPort();
-      // throws out stuff that was there before we were ready to read
-      byte[] trash = new byte[comPort.bytesAvailable()];
-      comPort.readBytes(trash, trash.length);
-      // continuously poll the communications port for a new rfid card
-      while (true) {
-        // wait if the scan hasn't been completed yet
-        while (comPort.bytesAvailable() != 14) Thread.sleep(20);
-        
-        // read everything from the com port
-        byte[] readBuffer = new byte[comPort.bytesAvailable()];
-        int numRead = comPort.readBytes(readBuffer, readBuffer.length);
-        String scannedString = new String(readBuffer, "UTF-8");
-        String[] scannedArray = scannedString.split(" ");
-        if (scannedArray[0].length() != 10) {
-          continue;
-        }
-        if (scannedArray[1].contains("p")) {
+    public String scanRFID() {
+        try {
+          comPort.openPort();
+          // throws out stuff that was there before we were ready to read
+          byte[] trash = new byte[comPort.bytesAvailable()];
+          comPort.readBytes(trash, trash.length);
+          // continuously poll the communications port for a new rfid card
+          while (true) {
+            // wait if the scan hasn't been completed yet
+            while (comPort.bytesAvailable() != 14) Thread.sleep(20);
+            
+            // read everything from the com port
+            byte[] readBuffer = new byte[comPort.bytesAvailable()];
+            int numRead = comPort.readBytes(readBuffer, readBuffer.length);
+            String scannedString = new String(readBuffer, "UTF-8");
+            String[] scannedArray = scannedString.split(" ");
+            if (scannedArray[0].length() != 10) {
+              continue;
+            }
+            if (scannedArray[1].contains("p")) {
+              comPort.closePort();
+              return scannedArray[0];
+            } else {
+              comPort.closePort();
+              return null;
+            }
+          }
+        } catch (Exception e) {
           comPort.closePort();
-          return scannedArray[0];
-        } else {
-          comPort.closePort();
+          e.printStackTrace();
           return null;
         }
       }
-    } catch (Exception e) {
-      comPort.closePort();
-      e.printStackTrace();
-      return null;
-    }
-  }
-```
+
 
 Below are a couple of demos on how the RFID login works.
 
