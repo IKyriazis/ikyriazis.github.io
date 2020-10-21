@@ -4,7 +4,7 @@ layout: page
 ---
 ![Profile Image]({% if site.external-image %}{{ site.picture }}{% else %}{{ site.url }}/{{ site.picture }}{% endif %})
 
-<p>Hi my name is Ioannis (pronounced yah-nee). I'm a computer science student at Worcester Polytechnic Institute in Worcester, MA. On top of a concentration in cyber security, I'm also pursuing two minors: electrical and computer engineering, and writing.</p>
+<p>Hi, my full name is Ioannis (I write this down on my papers), but I go by Yianni (pronounced yah-nee). I'm a computer science student at Worcester Polytechnic Institute in Worcester, MA. On top of a concentration in cyber security, I'm also pursuing two minors: electrical and computer engineering, and writing.</p>
 
 <h2>Skills</h2>
 
