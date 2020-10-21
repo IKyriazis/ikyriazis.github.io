@@ -93,7 +93,9 @@ private static String getTOTPCode(String secretKey) {
 This was my favorite feature out of the entire application because it was the most fun to implement and it's (objectively)
 the coolest. I was solely responsible for implementing an RFID login as I was the only one with an arduino, RFID reader, and
 RFID cards. 
+
 <insert image of all materials>
+
 Keep in mind that this was during the most extreme part of the pandemic where shipping took forever and most
 stores were closed so it was very lucky that I had this equipment at home.
 I had experience with using the RFID reader before, I had a program that printed the data of the RFID card to the
@@ -173,9 +175,89 @@ void loop () {
 }
 ```
 
-All I had to do was make the kiosk application communicate with the arduino.
+All I had to do was make the kiosk application communicate with the arduino. For this, I found a library that allowed
+the kiosk application to read from the serial communication ports. The library is called [jSerialComm](https://fazecast.github.io/jSerialComm/).
+The code in the login controller that initiates the RFID scan and handles if it is successful:
+```java
+ String scannedCode = scanRFID();
+            if (scannedCode != null) {
+              String localUsername = eDB.getUsername(scannedCode);
+              if (!localUsername.isEmpty()) {
+                username = localUsername;
+                eDB.rfidLogin(localUsername);
+                Platform.runLater(this::login);
+              } else {
+                // popup that rfid is not in the database
+                Platform.runLater(
+                    () -> {
+                      clickedBlockerPane();
+                      DialogUtil.simpleErrorDialog(
+                          rootPane, "Invalid Card", "The card you used doesn't belong to anyone");
+                    });
+              }
+            } else {
+              // popup that rfid scan went wrong
+              Platform.runLater(
+                  () -> {
+                    clickedBlockerPane();
+                    DialogUtil.simpleErrorDialog(
+                        rootPane, "Failed Read", "Something went wrong while scanning the card");
+                  });
+            }
+          });
+```
+
+The code that polls the serial communication port for an RFID card:
+```java
+public String scanRFID() {
+    try {
+      comPort.openPort();
+      // throws out stuff that was there before we were ready to read
+      byte[] trash = new byte[comPort.bytesAvailable()];
+      comPort.readBytes(trash, trash.length);
+      // continuously poll the communications port for a new rfid card
+      while (true) {
+        // wait if the scan hasn't been completed yet
+        while (comPort.bytesAvailable() != 14) Thread.sleep(20);
+        
+        // read everything from the com port
+        byte[] readBuffer = new byte[comPort.bytesAvailable()];
+        int numRead = comPort.readBytes(readBuffer, readBuffer.length);
+        String scannedString = new String(readBuffer, "UTF-8");
+        String[] scannedArray = scannedString.split(" ");
+        if (scannedArray[0].length() != 10) {
+          continue;
+        }
+        if (scannedArray[1].contains("p")) {
+          comPort.closePort();
+          return scannedArray[0];
+        } else {
+          comPort.closePort();
+          return null;
+        }
+      }
+    } catch (Exception e) {
+      comPort.closePort();
+      e.printStackTrace();
+      return null;
+    }
+  }
+```
+
+Below are a couple of demos on how the RFID login works.
 
 <insert video of adding account with rfid card>
 
 <insert video of logging in with rfid card>
 
+## Final Iteration
+During this iteration we decided to refactor our code and polish all of our features up. We didn't add any new features,
+but because of our refactoring, a lot of our features worked much smoother.
+
+### Path finding
+
+### Service Requests
+
+### RFID Login
+
+### Account Management

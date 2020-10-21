@@ -10,10 +10,6 @@ author: ioannis
 externalLink: false
 ---
 
-# crond
-
-### author: ikyriazis
-
     Why not roll your own version of cron?
     ssh ctf@crond.wpictf.xyz
     pass: they will never guess it
