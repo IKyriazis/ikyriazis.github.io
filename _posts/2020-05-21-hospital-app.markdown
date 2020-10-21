@@ -25,6 +25,8 @@ services. Some of the service requests we implemented:
 - Internal transport request - request for someone to bring you to your destination with a wheelchair
 - Prescription service request - Assign a specific prescription to a patient
 - Interpreter service request - request for a language interpreter at a specific location
+This project started in April and ended in August 2020 - the most extreme part of the pandemic. EVERYTHING was remote.
+All our communication was virtual.
 
 
 ## First Iteration
@@ -76,6 +78,8 @@ that secret key, the one time password is generated. If the code that the user e
 generated from the secret key, the user successfully logs in. If not, log in fails. The user gets their Time-Based One-Time
 Password from their authenticator app (We used an implementation of two-factor authentication that works with Google Authenticator).
 
+<insert video of logging in with google authenticator>
+
 ```java
 private static String getTOTPCode(String secretKey) {
     Base32 base32 = new Base32();
@@ -84,6 +88,94 @@ private static String getTOTPCode(String secretKey) {
     return TOTP.getOTP(hexKey);
   }
 ```
-### RFID Login
 
+### RFID Login
+This was my favorite feature out of the entire application because it was the most fun to implement and it's (objectively)
+the coolest. I was solely responsible for implementing an RFID login as I was the only one with an arduino, RFID reader, and
+RFID cards. 
+<insert image of all materials>
+Keep in mind that this was during the most extreme part of the pandemic where shipping took forever and most
+stores were closed so it was very lucky that I had this equipment at home.
+I had experience with using the RFID reader before, I had a program that printed the data of the RFID card to the
+serial communications port. The arduino sketch below is what I used. I found it from a tutorial online.
+
+```arduino
+// RFID reader ID-12 for Arduino 
+// Based on code by BARRAGAN <https://people.interaction-ivrea.it/h.barragan> 
+// and code from HC Gilje - https://hcgilje.wordpress.com/resources/rfid_id12_tagreader/
+// Modified for Arduino by djmatic
+// Modified for ID-12 and checksum by Martijn The - https://www.martijnthe.nl/
+//
+// Use the drawings from HC Gilje to wire up the ID-12.
+// Remark: disconnect the rx serial wire to the ID-12 when uploading the sketch
+
+
+void setup() {
+  Serial.begin(9600);                                 // connect to the serial port
+}
+
+void loop () {
+  byte i = 0;
+  byte val = 0;
+  byte code[6];
+  byte checksum = 0;
+  byte bytesread = 0;
+  byte tempbyte = 0;
+
+  if(Serial.available() > 0) {
+    if((val = Serial.read()) == 2) {                  // check for header 
+      bytesread = 0; 
+      while (bytesread < 12) {                        // read 10 digit code + 2 digit checksum
+        if( Serial.available() > 0) { 
+          val = Serial.read();
+          if((val == 0x0D)||(val == 0x0A)||(val == 0x03)||(val == 0x02)) { // if header or stop bytes before the 10 digit reading 
+            break;                                    // stop reading
+          }
+
+          // Do Ascii/Hex conversion:
+          if ((val >= '0') && (val <= '9')) {
+            val = val - '0';
+          } else if ((val >= 'A') && (val <= 'F')) {
+            val = 10 + val - 'A';
+          }
+
+          // Every two hex-digits, add byte to code:
+          if (bytesread & 1 == 1) {
+            // make some space for this hex-digit by
+            // shifting the previous hex-digit with 4 bits to the left:
+            code[bytesread >> 1] = (val | (tempbyte << 4));
+
+            if (bytesread >> 1 != 5) {                // If we're at the checksum byte,
+              checksum ^= code[bytesread >> 1];       // Calculate the checksum... (XOR)
+            };
+          } else {
+            tempbyte = val;                           // Store the first hex digit first...
+          };
+
+          bytesread++;                                // ready to read next digit
+        } 
+      } 
+
+      // Output to Serial:
+
+      if (bytesread == 12) {                          // if 12 digit read is complete
+        for (i=0; i<5; i++) {
+          if (code[i] < 16) Serial.print("0");
+          Serial.print(code[i], HEX);
+        }
+        Serial.print(code[5] == checksum ? " p" : " f");
+        Serial.println();
+      }
+
+      bytesread = 0;
+    }
+  }
+}
+```
+
+All I had to do was make the kiosk application communicate with the arduino.
+
+<insert video of adding account with rfid card>
+
+<insert video of logging in with rfid card>
 
