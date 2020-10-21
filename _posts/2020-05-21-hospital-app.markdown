@@ -81,6 +81,7 @@ Password from their authenticator app (We used an implementation of two-factor a
 <insert video of logging in with google authenticator>
 
 ```java
+
 private static String getTOTPCode(String secretKey) {
     Base32 base32 = new Base32();
     byte[] bytes = base32.decode(secretKey);
