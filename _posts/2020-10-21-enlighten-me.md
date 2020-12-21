@@ -12,7 +12,6 @@ author: ioannis
 externalLink: false
 ---
 
-The Homepage:
 ![Homepage](/assets/images/enlighten-me/homepage.PNG)
 
 [Enlighten me](https://enlightenme.ioannis.ky) is a platform where people go to debate controversial topics. Each round of debate
