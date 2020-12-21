@@ -12,9 +12,7 @@ author: ioannis
 externalLink: false
 ---
 
-# Enlighten Me
-
-[enlighten-me](enlightenme.ioannis.ky) is a platform where people go to debate controversial topics. Each round of debate
+[Enlighten me](https://enlightenme.ioannis.ky) is a platform where people go to debate controversial topics. Each round of debate
 lasts five minutes. Before each round, the user votes on whether they agree with the published topic. During the round, users
 send chats to whoever is logged into the site and they can up or down -vote individual messages. After the round ends, the user
 votes on whether they agree on the topic again to see whether they've changed their mind. They also vote on which category the next
