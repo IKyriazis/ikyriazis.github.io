@@ -12,7 +12,7 @@ author: ioannis
 externalLink: false
 ---
 
-#Enlighten Me
+# Enlighten Me
 
 [enlighten-me](enlightenme.ioannis.ky) is a platform where people go to debate controversial topics. Each round of debate
 lasts five minutes. Before each round, the user votes on whether they agree with the published topic. During the round, users
@@ -37,7 +37,7 @@ The Post-Round Voting:
 The Statistics:
 ![Statistics](/assets/images/enlighten-me/stats.jpg)
 
-#How It Was Built
+# How It Was Built
 
 Originally, this started out as a project for [hackMIT](https://hackmit.org/) in Python using Flask. Then, for a group project
 in my WebWare class, we ported the application over to NodeJS and added more features to satisfy the group project requirements.
