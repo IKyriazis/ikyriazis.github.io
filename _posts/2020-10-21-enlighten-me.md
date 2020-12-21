@@ -12,8 +12,8 @@ author: ioannis
 externalLink: false
 ---
 
-![Homepage]()
-hi my name is ioannistophur and i am here to enlighten you on how to live life. First step, date theresa so that u can 
-become best bros with her amazing younger sister Alexandra!! That is how to succeed at life :). Step 2: once you are bros 
-with alexandra, your life is so complete that you don't need anything else. The end :)
+![Homepage](/assets/images/enlighten-me/homepage.PNG)
+
+Hi im ioannis and i made yet another website. it is called enlighten me. i creatd it through a hackathon to inspire people to fight more often and destroy any hope for world peace. The end
+
 
