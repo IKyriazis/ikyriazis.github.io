@@ -49,7 +49,7 @@ Canvas Kicks to log into to see messages, add posts, edit posts, and delete post
 The backend is written in NodeJS. I can't disclose the source code because there is sensitive information (like database access links).
 If you want to see specific parts of the code contact me through the methods found [here](https://ioannis.ky/).
 
-I use MongoDB as the database to store comments, users, messages and posts. In the database a post includes four fields: a post title,
+I use MongoDB as the database to store comments, users, messages and posts. In the database, a post consists of four fields: a post title,
 a date, a price, and the images field. The images field is a string that includes the location of the image that was uploaded with the post.
 If multiple images were uploaded with the post, the images field is a string of multiple locations of each image separated
 by a comma. Images are stored on the server.
@@ -58,5 +58,5 @@ The frontend was written in HTML/CSS/JavaScript and uses Bootstrap for the navba
 
 The NPM module I use to handle image uploads is [multer](https://www.npmjs.com/package/multer). I set the maximum images for
 each post to be 10. In other words, a post can have no more than 10 images. When the POST request to add a post is received
-at the server, multer makes it very easy to parse the request data and save images to the server.
+at the server, multer makes it very easy to parse the request data and save the attached images to the server.
 
