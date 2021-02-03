@@ -3,7 +3,7 @@ name: Ioannis Kyriazis
 bio: Software engineer with an interest in cyber security and hardware
 
 # twitter summary info
-description: My personal slice of the web
+description: Home page for Ioannis Kyriazis
 
 # if it's an external image, update below for true
 # better with square images
@@ -22,7 +22,7 @@ url: https://ikyriazis.github.io
 permalink: /:title/
 
 # To enable google analytics, supply your token below
-# analytics-google: 'UA-MYANALYTICS'
+analytics-google: 'G-LKWLPN44FM'
 
 # To enable piwik tracking, supply your url & site ID below
 # analytics-piwik-url: 'piwik.my-host.com'
