@@ -19,4 +19,6 @@ anyone on the internet could conveniently share their own zoom link. All you nee
 link and come up with a shortcut. To illustrate, https://wpi.zoom.us/j/5057214268 (something difficult to remember) becomes zoom.ioannis.ky/ioannis
 (an easy thing to remember).
 
+Make your own link [here](https://zoom.ioannis.ky)
+
 I built it using NodeJS, HTML5/CSS3/JS, Bootstrap, and mongoDB.
