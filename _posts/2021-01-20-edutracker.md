@@ -30,7 +30,7 @@ Below is what the teacher sees when viewing a student's statistics
 
 ![statistics](/assets/images/edutracker/statistics.jpg)
 
-###How we built it
+### How we built it
 
 This project leverages multiple technologies to help teachers analyze data regarding their students. The technologies we used are listed below:
 
@@ -43,7 +43,7 @@ This project leverages multiple technologies to help teachers analyze data regar
 
 HTML/CSS/JS: To build our frontend we used the classic trio of web development.
 
-###Challenges we ran into
+### Challenges we ran into
 
 1) Microsoft Azure was giving us trouble when we tried to use it's speech to text services. It turns out we needed to specify
  how our .wav file was 44kHz stereo. After implementing the fix in the code, our team burst into celebration when we saw the
@@ -54,7 +54,7 @@ that the calls to the Microsoft servers were asynchronous so we weren’t awaiti
 the key phrases was empty. Once we noticed that we had to wait for the Microsoft Azure functions to complete we added the
  ‘await’ keyword and our array filled up like we wanted it to.
 
-###More information
+### More information
 
 If you like what you see, you can read more on our [devpost](https://devpost.com/software/edutracker). We even recorded
 a presentation you could watch.
