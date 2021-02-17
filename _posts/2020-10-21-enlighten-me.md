@@ -6,7 +6,7 @@ image:
 headerImage: true
 projects: true
 hidden: true
-description: "What started off as a hackathon idea became my group's WebWare final project"
+description: "A place people can gather to discuss controversial topics"
 category: project
 author: ioannis
 externalLink: false
