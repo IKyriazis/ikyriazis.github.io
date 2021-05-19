@@ -16,7 +16,7 @@ resume: true
 resume-external: false
 resume-url: assets/ikyriazis_resume.pdf
 
-url: https://ikyriazis.github.io
+url: https://ioannis.ky
 # your url: https://USERNAME.github.io
 
 permalink: /:title/
