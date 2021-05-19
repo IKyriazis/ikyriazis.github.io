@@ -4,7 +4,7 @@
  // Configure & Run the http server
  const app = express();
 
- app.use(express.static(__dirname + '/_site', { dotfiles: 'allow' } ));
+ app.use(express.static(__dirname + '/_site' ));
  app.get("/survey", (req, res) => {
 	 res.redirect("https://docs.google.com/forms/d/e/1FAIpQLSegCzK4g52VCJDnA0-JPLF4QV0eFqrfVANEX7LRvDnJpI2iUA/viewform?usp=sf_link");
 	 console.log("click");
