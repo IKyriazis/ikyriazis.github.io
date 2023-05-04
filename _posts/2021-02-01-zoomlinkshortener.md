@@ -21,7 +21,7 @@ link and come up with a shortcut. To illustrate, https://wpi.zoom.us/j/505721426
 
 Make your own link [here](https://zoom.ioannis.ky)
 
-I built it using NodeJS, HTML5/CSS3/JS, Bootstrap, and mongoDB.
+Built using NodeJS, HTML5/CSS3/JS, Bootstrap, and mongoDB.
 
 Future additions:
 - dashboard to view all links created
