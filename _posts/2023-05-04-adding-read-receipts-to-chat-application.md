@@ -42,7 +42,7 @@ I added the "seen" field to the table to distinguish the read messages from the 
 
 ### NodeJS Changes
 Now that I updated the messages table, I had to update some of my endpoints. This was a little tricky because there are multiple levels to this chat application. Because a user can have multiple qr codes they need to see an accurate number of unread messages for each qr code. And then once they open the qr code they need to see all the unread messages for each conversation. Here is a visual example. Take this screenshot of the home page:
-![home_with_unread_messages](/assets/images/qarmagnetreadreceipts/home_with_unread_messages)
+![home_with_unread_messages](/assets/images/qarmagnetreadreceipts/home_with_unread_messages.png)
 
 There are multiple qr codes with unread messages. Now if I tap on the "Tesla" qr code I can see all the conversations I have through the qr code I put on my car. 
 
