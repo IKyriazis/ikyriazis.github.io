@@ -49,7 +49,7 @@ Now that I updated the messages table, I had to update some of my endpoints. Thi
 
 There are multiple qr codes with unread messages. Now if I tap on the "Tesla" qr code I can see all the conversations I have through the qr code I put on my car. 
 
-[screenshot of tesla qr code with unread messages for each conversation but also have read conversations]
+![inbox_with_unread_messages](/assets/images/qarmagnetreadreceipts/inbox_view_with_unread_convo.png)
 
 As you can see, the different conversations also have an unread messages count. 
 
@@ -216,10 +216,10 @@ To communicate the amount of unread notifications to the user I had to make some
 
 This is what the home screen looked like before I added the read receipt functionality.
 
-[screenshot of homescreen with no unread messages]
+![homescreen_no_unread_messages](/assets/images/qarmagnetreadreceipts/home_screen_no_unread_messages.png)
 
 I decided to show unread messages per qr code with a bubble in the top right corner that sums up all the unread messages to that qr code. I styled it like ios styles their push notifications. This is what the changes look like visually.
-[screenshot of home screen with unread messages]
+![homescreen_with_unread_messages](/assets/images/qarmagnetreadreceipts/home_with_unread_messages.png)
 
 As for the code changes, it was relatively straight forward. I started by adding a View with a border radius that would turn it into a circle. I added text inside the View so that the user can see how many unread messages they have. Here is the code snippet of the React Native code that generates the QR Code tile on the home screen.
 ```jsx
@@ -262,15 +262,15 @@ The View is in curly braces so that when ``unread`` is 0 the bubble is hidden. A
 
 ### Inbox screen changes
 This is what the inbox screen looked like before I updated it to add a visual cue for unread messages.
-[screenshot of inbox view of qr code without unread messages]
+![inbox_view_no_unread](/assets/images/qarmagnetreadreceipts/inbox_view_no_unread.png)
 
 To add the visual cue I thought of two approaches. 
 
-[screenshot of inbox view with unread messages bubble in between message icon and sender]
+![inbox_view_mockup_1](/assets/images/qarmagnetreadreceipts/inbox_view_mockup_1.png)
 
 and
 
-[screenshot of inbox view with unread messages as I made it]
+![inbox_view_mockup_2](/assets/images/qarmagnetreadreceipts/inbox_view_mockup_2.png)
 
 I decided to go with the second option because I thought it was a clever use of the message icon I had already implemented. I also didn't want to clutter up the ui. 
 
