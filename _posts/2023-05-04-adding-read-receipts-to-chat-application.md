@@ -33,7 +33,9 @@ Message me at this qr code
 To implement this functionality I had to make some changes to the table that stores all the messages and some changes to the endpoints the application uses to retrieve/send messages.
 
 ### Database Changes
+
 Here is the current schema of the messages table:
+
 
 | id           | recipient  | sender     | message_content | time     | seen    |
 |--------------|------------|------------|-----------------|----------|---------|
