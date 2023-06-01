@@ -34,6 +34,7 @@ To implement this functionality I had to make some changes to the table that sto
 
 ### Database Changes
 Here is the current schema of the messages table:
+
 | id           | recipient  | sender     | message_content | time     | seen    |
 |--------------|------------|------------|-----------------|----------|---------|
 | int unsigned | binary(16) | binary(16) | varchar(256)    | datetime | tinyint |
