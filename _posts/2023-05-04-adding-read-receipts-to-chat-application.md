@@ -1,5 +1,5 @@
 ---
-title: "How to Add Read Receipts to a Chat Application"
+title: "Adding Read Receipts to a NodeJS, Express, React-Native, and MySQL Application"
 layout: post
 date: 2023-05-04 07:00
 image: 
@@ -11,8 +11,6 @@ category: project
 author: ioannis
 externalLink: false
 ---
-
-# Adding Read Receipts to a NodeJS, Express, React-Native, and MySQL Application
 
 The point of this post is to explain how I implemented read receipts in my chat application using NodeJS, Express, React-Native, and MySQL as the tech stack. If you are here purely for the how-to, skip this section. Otherwise, keep reading.
 
@@ -26,7 +24,8 @@ If you want a qr code for yourself let me know by scanning the qr code down belo
 
 Anyways, the inspiration for this post comes from my quest to implement read receipts. I thought it would be a cool feature to implement, and helpful to the user to see which of their qr codes have unread chats. I tried researching this process to see if there were any smarter ways to do this but I didn't find much so here's my implementation. If you have any ideas on how to make the process more efficient, let me know and I will update this post. Or you can just submit a pull request [here](https://github.com/IKyriazis/ikyriazis.github.io/blob/master/_posts/2023-05-04-adding-read-receipts-to-chat-application.md).
 
-Message me at this qr code
+Message me at the qr code below:
+
 ![MyQRCode](/assets/images/qarmagnetreadreceipts/qarmagnet_qr.png)
 
 ## Backend Changes
