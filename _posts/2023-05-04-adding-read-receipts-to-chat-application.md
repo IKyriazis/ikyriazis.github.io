@@ -37,6 +37,7 @@ Here is the current schema of the messages table:
 | id           | recipient  | sender     | message_content | time     | seen    |
 |--------------|------------|------------|-----------------|----------|---------|
 | int unsigned | binary(16) | binary(16) | varchar(256)    | datetime | tinyint |
+
 I added the "seen" field to the table to distinguish the read messages from the unread. I decided to use the tinyint datatype because of [this](https://stackoverflow.com/questions/289727/which-mysql-data-type-to-use-for-storing-boolean-values) StackOverflow post. So a 0 or null in the column would mean that the message is unread, and anything else would be considered read.
 
 ### NodeJS Changes
@@ -75,10 +76,190 @@ Together the query looks like this:
 SELECT BIN_TO_UUID(uuid) as uuid, label, COUNT(CASE WHEN me.seen = 0 AND me.recipient=uuid THEN 1 END) as unread FROM mappings ma LEFT JOIN messages me ON ma.uuid = me.recipient OR ma.uuid = me.sender WHERE ma.user = ? AND (ma.isDeleted = 0 OR ma.isDeleted IS NULL) GROUP BY ma.uuid ORDER BY MAX(me.time) DESC
 ```
 
+#### /getDistinctSenders
+This endpoint is responsible for getting all the conversations from the given qr code. The response includes the uuid of the sender, the nickname of the sender (a random three word slug so an ugly uuid string isn't shown on the ui), the time of the latest message, and the message content of the lates message (so the user can see a preview of the latest message). The three word slug comes from a table that maps the uuid of the person who scans the qr code with a nickname. The schema just includes the binary(16) datatype for the uuid and a varchar for the nickname field. Here is the SQL query I use to get all the response data:
+```sql
+SELECT DISTINCT BIN_TO_UUID(m.sender) AS sender, su.nickname, MAX(m.time) AS latest_message_time, (SELECT message_content FROM messages WHERE (sender = m.sender AND recipient = UUID_TO_BIN(?)) OR (recipient = m.sender AND sender = UUID_TO_BIN(?)) ORDER BY time DESC LIMIT 1) AS lastMessage, FROM messages m LEFT JOIN scanchat_users su ON m.sender = su.uuid WHERE m.recipient = UUID_TO_BIN(?) GROUP BY m.sender ORDER BY latest_message_time DESC, sender
+```
 
+I added this to get the number of unread messages for each conversation:
+```sql
+COUNT(CASE WHEN m.seen = 0 AND m.recipient = UUID_TO_BIN(?) THEN 1 END) AS unread
+```
 
+Here is the complete query I use:
+```sql
+SELECT DISTINCT BIN_TO_UUID(m.sender) AS sender, su.nickname, MAX(m.time) AS latest_message_time, (SELECT message_content FROM messages WHERE (sender = m.sender AND recipient = UUID_TO_BIN(?)) OR (recipient = m.sender AND sender = UUID_TO_BIN(?)) ORDER BY time DESC LIMIT 1) AS lastMessage, COUNT(CASE WHEN m.seen = 0 AND m.recipient = UUID_TO_BIN(?) THEN 1 END) AS unread FROM messages m LEFT JOIN scanchat_users su ON m.sender = su.uuid WHERE m.recipient = UUID_TO_BIN(?) GROUP BY m.sender ORDER BY latest_message_time DESC, sender
+```
 
+#### /getMessagesAsAppUser
+This endpoint is responsible for retrieving all the messages within a conversation. I had to modify this endpoint so that it marks all the unread messages as read when the user tries getting all the messages.
+After all the messages are retrieved from the database, I hold onto the message ids and send an update query to the database for all the messages to the user that are unread. All the update query does is set the seen field to 1 for all the unread messages sent to the user. I use a for loop to build the query string and then submit it. Here is the code snippet:
+```javascript
+let  updateSeenQuery = "UPDATE messages SET seen = 1 WHERE recipient = UUID_TO_BIN(?) AND (seen = 0 OR seen IS NULL) AND id IN (";
+for (let  i = 0; i < messages.length; i++) {
+  if (i === messages.length - 1) {
+    updateSeenQuery += messages[i].id + ")";
+  }
+  else {
+    updateSeenQuery += messages[i].id + ", ";
+  }
+}
+connection.query(updateSeenQuery, [uuid], (err) => {
+  if (err) {
+    getMessagesAsAppUserLogger.error({error:  err, message:  "couldn't update message seen status"});
+    return;
+  }
+  else {
+    getMessagesAsAppUserLogger.info({message:  "changed seen status of messages"});
+    return;
+  }
+});
+```
+
+With this addition to the endpoint, I can update the unread status of the message. Again, I'm sure this process can be improved but I'm not sure how, so if anyone has any feedback let me know!
+
+But what happens when the app user is in the conversation already? While the app user is in the conversation, the websocket server is responsible for transporting the message to the app user's device. For this I had to create a new endpoint.
+
+#### /markMessageSeen
+This endpoint takes a message id and updates the message's seen field to 1. So that whenever the app user receives a message while they are in the conversation, the app sends a post request to this endpoint with the message id and this endpoint marks that message as seen. Again, this is the best way I thought of doing it, so if you have any better ideas with this let me know. It doesn't sound the cleanest but it's what I have for now until I think of something better. Here's the code snippet for this endpoint:
+```javascript
+app.post("/api/markMessageSeen", (req, res) => {
+  const  user = req.session.user;
+  const  id = req.body.id;
+  const  markMessageSeenLogger = wlogger.child({
+    user,
+    ip:  req.header('cf-connecting-ip'),
+    id,
+    endpoint:  "/api/markMessageSeen"
+  });
+  if (!user) {
+    markMessageSeenLogger.warn({message:  "not logged in"});
+    res.json({message:  "not logged in"});
+    return;
+  }
+  else  if (!id) {
+    markMessageSeenLogger.warn({message:  "id undefined"});
+    res.json({message:  "id undefined"});
+    return;
+  }
+  else {
+    // make sure that user owns the uuid of the message id
+    connection.query("SELECT BIN_TO_UUID(uuid) AS uuid FROM mappings WHERE user = ?", [user], (err, uuids) => {
+      if (err) {
+        markMessageSeenLogger.error({error:  err, message:  "couldn't get uuids from user"});
+        res.json({message:  "db error"});
+        return;
+      }
+      else  if (uuids.length === 0) {
+        markMessageSeenLogger.warn({message:  "trying to set message seen with no uuids"});
+        res.json({message:  "no uuids found"});
+        return;
+      }
+    else {
+      let  uuidList = [];
+      uuids.forEach(uuid  => {
+        uuidList.push(uuid.uuid);
+      });
+      connection.query("SELECT BIN_TO_UUID(recipient) as recipient FROM messages WHERE id = ?", [id], (err, recipient) => {
+        if (err) {
+          markMessageSeenLogger.error({error:  err, message:  "couldn't get recipient using id"});
+          res.json({message:  "db error"});
+          return;
+        }
+        else  if (recipient.length === 0) {
+          markMessageSeenLogger.warn({message:  "message doesn't exist with given id"});
+          res.json({message:  "message not found"});
+          return;
+        }
+        else {
+          let  fraud = true;
+          uuidList.forEach(uuid  => {
+            if (uuid === recipient[0].recipient) {
+              fraud = false;
+            }
+          });
+          if (fraud) {
+            markMessageSeenLogger.warn({message:  "user trying to set message seen when not recipient"});
+            res.json({message:  "forbidden"});
+            return;
+          }
+          else {
+            connection.query("UPDATE messages SET seen = 1 WHERE id = ?", [id], (err) => {
+              if (err) {
+                markMessageSeenLogger.error({error:  err, message:  "couldn't update message seen"});
+                res.json({message:  "db error"});
+                return;
+              }
+              else {
+                markMessageSeenLogger.info({message:  "updated seen for message"});
+                res.json({message:  "success"});
+                return;
+              }
+            });
+          }
+        }
+      });
+    }
+  });
+}});
+```
 
 ## UI Changes
+
+To communicate the amount of unread notifications to the user I had to make some changes to the ui. There were two screens I had to make changes to. The home screen and the inbox screen.
+
+### Home screen changes
+
+This is what the home screen looked like before I added the read receipt functionality.
+
+[screenshot of homescreen with no unread messages]
+
+I decided to show unread messages per qr code with a bubble in the top right corner that sums up all the unread messages to that qr code. I styled it like ios styles their push notifications. This is what the changes look like visually.
+[screenshot of home screen with unread messages]
+
+As for the code changes, it was relatively straight forward. I started by adding a View with a border radius that would turn it into a circle. I added text inside the View so that the user can see how many unread messages they have. Here is the code snippet of the React Native code that generates the QR Code tile on the home screen.
+```jsx
+const  QRCodeTile = ({label, uuid, unread}) => {
+  return(
+    <TouchableOpacity  onPress={() => {navigation.navigate("InboxView", {label, uuid})}}>
+      <View  style={{height:  90, width:  90, margin:  10, backgroundColor:  'white', borderColor:  "white", borderWidth:  5, flexDirection:  'column', justifyContent:  "space-between"}}>
+        <View  style={{justifyContent:  "space-between", flexDirection:  "row"}}>
+          <View  style={{height:  25, width:  25, backgroundColor:  "white", borderWidth:  3.5, justifyContent:  "center", alignItems:  "center"}}>
+            <View  style={{height:  10, width:  10, backgroundColor:  "black"}}  />
+          </View>
+          <View  style={{height:  25, width:  25, backgroundColor:  "white", borderWidth:  3.5, justifyContent:  "center", alignItems:  "center"}}>
+            <View  style={{height:  10, width:  10, backgroundColor:  "black"}}  />
+          </View>
+        </View>
+        <Text  numberOfLines={1}  adjustsFontSizeToFit  style={{color:  'black', fontFamily:  "Dongle-Light", fontSize:  17, textAlign:  "center" }}>{label}</Text>
+        <View  style={{height:  25, width:  25, backgroundColor:  "white", borderWidth:  3.5, justifyContent:  "center", alignItems:  "center"}}>
+          <View  style={{height:  10, width:  10, backgroundColor:  "black"}}  />
+        </View>
+      </View>
+      {unread !== 0 && <View  style={{flex:  1, justifyContent:  "center", alignContent:  "center", height:  25, width:  25, alignSelf:  "flex-end", position:  "absolute", borderRadius:  25, backgroundColor:  "#1a9bb2"}}  >
+          <Text  numberOfLines={1}  adjustsFontSizeToFit  style={{alignSelf:  "center", color:  "white", fontFamily:  "Dongle-Light", fontSize:  20}}>
+            {unread > 99? "99+" : unread}
+          </Text>
+       </View>}
+    </TouchableOpacity>
+  );
+}
+```
+
+As part of the read receipt update, I added this section.
+```jsx
+{unread !== 0 && <View  style={{flex:  1, justifyContent:  "center", alignContent:  "center", height:  25, width:  25, alignSelf:  "flex-end", position:  "absolute", borderRadius:  25, backgroundColor:  "#1a9bb2"}}  >
+  <Text  numberOfLines={1}  adjustsFontSizeToFit  style={{alignSelf:  "center", color:  "white", fontFamily:  "Dongle-Light", fontSize:  20}}>
+    {unread > 99? "99+" : unread}
+  </Text>
+</View>}
+```
+The View is in curly braces so that when ``unread`` is 0 the bubble is hidden. As I was testing my application, I noticed that when the amount of unread messages was in the hundreds the ui looked bad so I added that if ``unread`` is greater than 99 than display 99+ as the amount of unread messages.
+
+### Inbox screen changes
+
+
+
 
 ## Conclusion
