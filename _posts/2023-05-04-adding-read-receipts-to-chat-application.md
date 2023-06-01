@@ -27,7 +27,7 @@ If you want a qr code for yourself let me know by scanning the qr code down belo
 Anyways, the inspiration for this post comes from my quest to implement read receipts. I thought it would be a cool feature to implement, and helpful to the user to see which of their qr codes have unread chats. I tried researching this process to see if there were any smarter ways to do this but I didn't find much so here's my implementation. If you have any ideas on how to make the process more efficient, let me know and I will update this post. Or you can just submit a pull request [here](https://github.com/IKyriazis/ikyriazis.github.io/blob/master/_posts/2023-05-04-adding-read-receipts-to-chat-application.md).
 
 Message me at this qr code
-[image of qr code]
+![MyQRCode](/assets/images/qarmagnetreadreceipts/qarmagnet_qr.png)
 
 ## Backend Changes
 To implement this functionality I had to make some changes to the table that stores all the messages and some changes to the endpoints the application uses to retrieve/send messages.
@@ -42,7 +42,7 @@ I added the "seen" field to the table to distinguish the read messages from the 
 
 ### NodeJS Changes
 Now that I updated the messages table, I had to update some of my endpoints. This was a little tricky because there are multiple levels to this chat application. Because a user can have multiple qr codes they need to see an accurate number of unread messages for each qr code. And then once they open the qr code they need to see all the unread messages for each conversation. Here is a visual example. Take this screenshot of the home page:
-[screenshot of home page with multiple qr codes with unread messages]
+![home_with_unread_messages](/assets/images/qarmagnetreadreceipts/home_with_unread_messages)
 
 There are multiple qr codes with unread messages. Now if I tap on the "Tesla" qr code I can see all the conversations I have through the qr code I put on my car. 
 
