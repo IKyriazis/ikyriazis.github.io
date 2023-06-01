@@ -258,8 +258,50 @@ As part of the read receipt update, I added this section.
 The View is in curly braces so that when ``unread`` is 0 the bubble is hidden. As I was testing my application, I noticed that when the amount of unread messages was in the hundreds the ui looked bad so I added that if ``unread`` is greater than 99 than display 99+ as the amount of unread messages.
 
 ### Inbox screen changes
+This is what the inbox screen looked like before I updated it to add a visual cue for unread messages.
+[screenshot of inbox view of qr code without unread messages]
 
+To add the visual cue I thought of two approaches. 
 
+[screenshot of inbox view with unread messages bubble in between message icon and sender]
+
+and
+
+[screenshot of inbox view with unread messages as I made it]
+
+I decided to go with the second option because I thought it was a clever use of the message icon I had already implemented. I also didn't want to clutter up the ui. 
+
+Here is the code snippet responsible for generating the inbox items.
+
+```jsx
+const  DistinctSender = ({nickname, uuid, lastMessage, sender, unread}) => {
+  return (
+    <TouchableOpacity  onPress={() => {navigation.navigate("Messages", {sender, uuid, nickname, isSupport:  false})}}>
+      <View  style={{flexDirection:  "row"}}>
+        <MaterialIcons  style={{margin:  10, marginLeft:  0, fontSize:  40, color:  unread > 0? "#1a9bb2" : "white"}}  name="chat-bubble"  />
+        <Text  numberOfLines={1}  adjustsFontSizeToFit  style={{marginLeft:  15, alignSelf:  "center", position:  "absolute", color:"white", fontFamily:  "Dongle-Regular", fontSize:  20}}>
+          {unread > 0? unread > 9? "9+" : unread : ""}
+        </Text>
+        <View  style={{marginLeft:  15, flexDirection:  "column"}}>
+          <Text  style={{fontFamily:  "Dongle-Regular", color:  "white", fontSize:  25}}>{nickname !== null? nickname.length > 25? nickname.substring(0, 25) + "..." : nickname : sender.substring(0, 20) + "..."}</Text>
+          <Text  style={{fontFamily:  "Dongle-Regular", color:  "gray", fontSize:  15}}>{lastMessage}</Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+}
+```
+
+The code that I altered/added in that snippet is here:
+```jsx
+<MaterialIcons style={{margin: 10, marginLeft: 0, fontSize: 40, color: unread > 0? "#1a9bb2" : "white"}} name="chat-bubble" />  
+<Text numberOfLines={1} adjustsFontSizeToFit style={{marginLeft: 15, alignSelf: "center", position: "absolute", color:"white", fontFamily: "Dongle-Regular", fontSize: 20}}>  {unread >  0? unread >  9?  "9+"  : unread :  ""}  
+</Text>
+```
+I added the ternary operator when configuring the color of the message icon so that the message icon would be blue when there were unread messages. I also added the text field so that the user can see how many unread messages they have. Like before, I noticed that the formatting got ugly when there were more than 9 unread messages, so I decided to condense the number by showing 9+ if there were more than 9 unread messages in the conversation.
 
 
 ## Conclusion
+If you got to this point in the article, congrats! We covered a lot of ground. I talked about the app I've been working on for about a year, the changes I made to my NodeJS server to add the unread messages functionality, the database schema changes, and the React Native code changes to show the user the unread messages. 
+
+I hope you learned some new development techniques or had some interesting thoughts that you would like to share with me (at the qr code above, c'mon, send me a message and put the new ui stuff you just read about to work on my device). If you want to read more of my articles, go to the posts section of this website, if you want to connect with me on linkedin, I have that link under my profile image on the home screen of this site. Also, I recently went car camping in Acadia. If you want to check that out, here's the [link](https://www.youtube.com/watch?v=GAsPgU3NPbU&t=10s&ab_channel=IoannisKyriazis).
