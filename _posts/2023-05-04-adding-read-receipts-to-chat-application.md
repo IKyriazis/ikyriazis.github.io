@@ -36,9 +36,37 @@ To implement this functionality, I had to make some changes to the table that st
 Here is the current schema of the messages table:
 
 
-| id           | recipient &nbsp; &nbsp;  | sender     | message_content &nbsp; &nbsp;| time     | seen    |
-|--------------|------------|------------|-----------------|----------|---------|
-| int unsigned &nbsp; &nbsp;  | binary(16)   | binary(16)  &nbsp; &nbsp; | varchar(256)    | datetime &nbsp; &nbsp; | tinyint &nbsp; &nbsp; |
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+.tg .tg-0lax{text-align:left;vertical-align:top}
+</style>
+<table class="tg">
+<thead>
+  <tr>
+    <th class="tg-0pky">id</th>
+    <th class="tg-0pky">recipient</th>
+    <th class="tg-0pky">sender</th>
+    <th class="tg-0pky">message_content</th>
+    <th class="tg-0pky">time</th>
+    <th class="tg-0lax">seen</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td class="tg-0pky">int unsigned</td>
+    <td class="tg-0pky">binary(16)</td>
+    <td class="tg-0pky">binary(16)</td>
+    <td class="tg-0pky">varchar(256)</td>
+    <td class="tg-0pky">datetime</td>
+    <td class="tg-0lax">tinyint</td>
+  </tr>
+</tbody>
+</table>
 
 I added the "seen" field to the table to distinguish the read messages from the unread. I decided to use the tinyint datatype because of [this](https://stackoverflow.com/questions/289727/which-mysql-data-type-to-use-for-storing-boolean-values) StackOverflow post. So a 0 or null in the column would mean that the message is unread, and anything else would be considered read.
 
