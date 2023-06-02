@@ -55,9 +55,34 @@ As you can see, the different conversations also have an unread messages count.
 #### /getUserQRCodes
 This endpoint is responsible for populating the home screen of the app with all the qr codes that a user owns. All qr codes are stored in the mappings table:
 
-| uuid | label | user | isDeleted | dateDeleted |
-|---|---|---|---|---|
-| binary(16) | varchar(32) | varchar(32) | tinyint | datetime |
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+</style>
+<table class="tg">
+<thead>
+  <tr>
+    <th class="tg-0pky">uuid</th>
+    <th class="tg-0pky">label</th>
+    <th class="tg-0pky">user</th>
+    <th class="tg-0pky">isDeleted</th>
+    <th class="tg-0pky">dateDeleted</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td class="tg-0pky">binary(16)</td>
+    <td class="tg-0pky">varchar(32)</td>
+    <td class="tg-0pky">varchar(32)</td>
+    <td class="tg-0pky">tinyint</td>
+    <td class="tg-0pky">datetime</td>
+  </tr>
+</tbody>
+</table>
 
 The uuid is the unique id of the qr code, the label is the text that appears on the qr code on the home screen, the user is the username of the qr code owner, isDeleted is whether the qr code is deleted, and dateDeleted is when the qr code was deleted.
 
