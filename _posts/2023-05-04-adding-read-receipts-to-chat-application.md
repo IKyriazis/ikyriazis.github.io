@@ -1,5 +1,5 @@
 ---
-title: "Adding Read Receipts to a NodeJS, Express, React-Native, and MySQL Application"
+title: "Adding Read Receipts to a NodeJS, Express, React-Native, and MySQL Chat Application"
 layout: post
 date: 2023-05-04 07:00
 image: 
@@ -18,13 +18,13 @@ Since my last post I graduated from college, was hired as a software engineer, w
 
 The going name I am using for it is qarmagnet (pronounced carmagnet lol I know it's bad I'm trying to come up with a better one, feel free to send me a suggestion by scanning the qr code below). The app leverages qr codes to facilitate communication between strangers. The owner of the qr code downloads the app, registers their qr code under their account, and puts the qr code somewhere. 
 
-For example, say they put it on their car. Now, if a passerby notices that the car's windows are down and there is no one in the car, they can scan the qr code with their phone and send a message directly to the owner. No logging in or downloading any apps. EZPZ. The passerby can now inform the car owner that they left the windows down and the car owner will receive the message through the app. No phone numbers or other personal identification involved.
+For example, say they put it on their car. Now, if a passerby notices that the car's windows are down and there is no one in the car, they can scan the qr code with their phone and send a message directly to the owner. No logging in or downloading any apps. EZPZ. The passerby can now inform the car owner that they left the windows down and the car owner will receive the message through the app. No phone numbers or other personal identification involved. This can be used for a plethora of other situations as well. You unintentionally/intentionally blocking someone in with your car, someone hitting your car and wanting to leave their information with you but not having pens/paper, etc.
 
 If you want a qr code for yourself let me know by scanning the qr code down below and sending me a message.
 
 Anyways, the inspiration for this post comes from my quest to implement read receipts. I thought it would be a cool feature to implement, and helpful to the user to see which of their qr codes have unread chats. I tried researching this process to see if there were any smarter ways to do this but I didn't find much so here's my implementation. If you have any ideas on how to make the process more efficient, let me know and I will update this post. Or you can just submit a pull request [here](https://github.com/IKyriazis/ikyriazis.github.io/blob/master/_posts/2023-05-04-adding-read-receipts-to-chat-application.md).
 
-Message me at the qr code below:
+Message me at the qr code below or click [here](https://qarmagnet.com/chat/7bea431c-9c2f-4683-894e-f2dcc1c69ec0):
 
 ![MyQRCode](/assets/images/qarmagnetreadreceipts/qarmagnet_qr.png)
 
