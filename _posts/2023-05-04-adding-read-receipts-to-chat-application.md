@@ -305,6 +305,7 @@ I decided to show unread messages per qr code with a bubble in the top right cor
 
 As for the code changes, it was relatively straight forward. I started by adding a View with a border radius that would turn it into a circle. I added text inside the View so that the user can see how many unread messages they have. Here is the code snippet of the React Native code that generates the QR Code tile on the home screen.
 
+{% raw %}
 ```jsx
 const  QRCodeTile = ({label, uuid, unread}) => {
   return(
@@ -332,8 +333,11 @@ const  QRCodeTile = ({label, uuid, unread}) => {
   );
 }
 ```
+{% endraw %}
 
 As part of the read receipt update, I added this section.
+
+{% raw %}
 ```jsx
 {unread !== 0 && <View  style={{flex:  1, justifyContent:  "center", alignContent:  "center", height:  25, width:  25, alignSelf:  "flex-end", position:  "absolute", borderRadius:  25, backgroundColor:  "#1a9bb2"}}  >
   <Text  numberOfLines={1}  adjustsFontSizeToFit  style={{alignSelf:  "center", color:  "white", fontFamily:  "Dongle-Light", fontSize:  20}}>
@@ -341,6 +345,8 @@ As part of the read receipt update, I added this section.
   </Text>
 </View>}
 ```
+{% endraw %}
+
 The View is in curly braces so that when ``unread`` is 0 the bubble is hidden. As I was testing my application, I noticed that when the amount of unread messages was in the hundreds the ui looked bad so I added that if ``unread`` is greater than 99 than display 99+ as the amount of unread messages.
 
 ### Inbox screen changes
@@ -360,6 +366,7 @@ I decided to go with the second option because I thought it was a clever use of 
 
 Here is the code snippet responsible for generating the inbox items.
 
+{% raw %}
 ```jsx
 const  DistinctSender = ({nickname, uuid, lastMessage, sender, unread}) => {
   return (
@@ -378,14 +385,17 @@ const  DistinctSender = ({nickname, uuid, lastMessage, sender, unread}) => {
   );
 }
 ```
+{% endraw %}
 
 The code that I altered/added in that snippet is here:
 
+{% raw %}
 ```jsx
 <MaterialIcons style={{margin: 10, marginLeft: 0, fontSize: 40, color: unread > 0? "#1a9bb2" : "white"}} name="chat-bubble" />  
 <Text numberOfLines={1} adjustsFontSizeToFit style={{marginLeft: 15, alignSelf: "center", position: "absolute", color:"white", fontFamily: "Dongle-Regular", fontSize: 20}}>  {unread >  0? unread >  9?  "9+"  : unread :  ""}  
 </Text>
 ```
+{% endraw %}
 
 I added the ternary operator when configuring the color of the message icon so that the message icon would be blue when there were unread messages. I also added the text field so that the user can see how many unread messages they have. Like before, I noticed that the formatting got ugly when there were more than 9 unread messages, so I decided to condense the number by showing 9+ if there were more than 9 unread messages in the conversation.
 
