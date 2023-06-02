@@ -55,18 +55,9 @@ As you can see, the different conversations also have an unread messages count.
 #### /getUserQRCodes
 This endpoint is responsible for populating the home screen of the app with all the qr codes that a user owns. All qr codes are stored in the mappings table:
 
-|-----------------+------------+-----------------+----------------|
-| Default aligned |Left aligned| Center aligned  | Right aligned  |
-|-----------------|:-----------|:---------------:|---------------:|
-| First body part |Second cell | Third cell      | fourth cell    |
-| Second line     |foo         | **strong**      | baz            |
-| Third line      |quux        | baz             | bar            |
-|-----------------+------------+-----------------+----------------|
-| Second body     |            |                 |                |
-| 2 line          |            |                 |                |
-|=================+============+=================+================|
-| Footer row      |            |                 |                |
-|-----------------+------------+-----------------+----------------|
+| uuid | label | user | isDeleted | dateDeleted |
+|---|---|---|---|---|
+| binary(16) | varchar(32) | varchar(32) | tinyint | datetime |
 
 The uuid is the unique id of the qr code, the label is the text that appears on the qr code on the home screen, the user is the username of the qr code owner, isDeleted is whether the qr code is deleted, and dateDeleted is when the qr code was deleted.
 
