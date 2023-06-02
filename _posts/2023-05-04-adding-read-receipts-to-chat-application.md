@@ -36,9 +36,9 @@ To implement this functionality, I had to make some changes to the table that st
 Here is the current schema of the messages table:
 
 
-| id           | recipient  | sender     | message_content | time     | seen    |
+| id           | recipient &nbsp; &nbsp;  | sender     | message_content &nbsp; &nbsp;| time     | seen    |
 |--------------|------------|------------|-----------------|----------|---------|
-| int unsigned   | binary(16)   | binary(16)   | varchar(256)    | datetime | tinyint |
+| int unsigned &nbsp; &nbsp;  | binary(16)   | binary(16)  &nbsp; &nbsp; | varchar(256)    | datetime &nbsp; &nbsp; | tinyint &nbsp; &nbsp; |
 
 I added the "seen" field to the table to distinguish the read messages from the unread. I decided to use the tinyint datatype because of [this](https://stackoverflow.com/questions/289727/which-mysql-data-type-to-use-for-storing-boolean-values) StackOverflow post. So a 0 or null in the column would mean that the message is unread, and anything else would be considered read.
 
