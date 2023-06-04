@@ -366,8 +366,6 @@ To add the visual cue I thought of two approaches.
 
   <img src="/assets/images/qarmagnetreadreceipts/inbox_view_mockup_1.png" height="599px"/>
 
-  and
-
   <img src="/assets/images/qarmagnetreadreceipts/inbox_view_mockup_2.png" height="599px"/>
 
 </p>
