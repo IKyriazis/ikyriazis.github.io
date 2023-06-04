@@ -364,10 +364,10 @@ To add the visual cue I thought of two approaches.
 
 <p float="left">
 
-<img src="/assets/images/qarmagnetreadreceipts/inbox_view_mockup_1.png" />
+<img src="/assets/images/qarmagnetreadreceipts/inbox_view_mockup_1.png" height="599px"/>
 <!-- ![inbox_view_mockup_1](/assets/images/qarmagnetreadreceipts/inbox_view_mockup_1.png){:height="599px"} -->
 
-<img src="/assets/images/qarmagnetreadreceipts/inbox_view_mockup_2.png" />
+<img src="/assets/images/qarmagnetreadreceipts/inbox_view_mockup_2.png" height="599px"/>
 
 <!-- ![inbox_view_mockup_2](/assets/images/qarmagnetreadreceipts/inbox_view_mockup_2.png){:height="599px"} -->
 </p>
