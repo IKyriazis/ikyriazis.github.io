@@ -26,7 +26,7 @@ Anyways, the inspiration for this post comes from my quest to implement read rec
 
 Message me at the qr code below or click [here](https://qarmagnet.com/chat/7bea431c-9c2f-4683-894e-f2dcc1c69ec0):
 
-![MyQRCode](/assets/images/qarmagnetreadreceipts/qarmagnet_qr.png)
+![MyQRCode](/assets/images/qarmagnetreadreceipts/qarmagnet_qr.png){:style="display:block; margin-left:auto; margin-right:auto"}
 
 ## Backend Changes
 To implement this functionality, I had to make some changes to the table that stores all the messages and to the endpoints the application uses to retrieve/send messages.
@@ -73,11 +73,11 @@ I added the "seen" field to the table to distinguish the read messages from the 
 ### NodeJS Changes
 Now that I updated the messages table, I had to update some of my endpoints. This was a little tricky because there are multiple levels to this chat application. Because a user can have multiple qr codes they need to see an accurate number of unread messages for each qr code. And then once they open the qr code they need to see all the unread messages for each conversation. Here is a visual example. Take this screenshot of the home page:
 
-![home_with_unread_messages](/assets/images/qarmagnetreadreceipts/home_with_unread_messages.png){:height="599px"}
+![home_with_unread_messages](/assets/images/qarmagnetreadreceipts/home_with_unread_messages.png){:height="599px" style="display:block; margin-left:auto; margin-right:auto"}
 
 There are multiple qr codes with unread messages. Now if I tap on the "Tesla" qr code I can see all the conversations I have through the qr code I put on my car. 
 
-![inbox_with_unread_messages](/assets/images/qarmagnetreadreceipts/inbox_view_with_unread_convo.png){:height="599px"}
+![inbox_with_unread_messages](/assets/images/qarmagnetreadreceipts/inbox_view_with_unread_convo.png){:height="599px" style="display:block; margin-left:auto; margin-right:auto"}
 
 As you can see, the different conversations also have an unread messages count. 
 
@@ -116,6 +116,7 @@ This endpoint is responsible for populating the home screen of the app with all 
 The uuid is the unique id of the qr code, the label is the text that appears on the qr code on the home screen, the user is the username of the qr code owner, isDeleted is whether the qr code is deleted, and dateDeleted is when the qr code was deleted.
 
 The SQL query below gets all the qr codes a user owns that aren't deleted and orders the results by the latest message to/from that qr code:
+
 ```sql
 SELECT BIN_TO_UUID(uuid) as uuid, label FROM mappings ma 
 LEFT JOIN messages me ON ma.uuid = me.recipient OR ma.uuid = me.sender 
@@ -123,7 +124,8 @@ WHERE ma.user = ? AND (ma.isDeleted = 0 OR ma.isDeleted IS NULL)
 GROUP BY ma.uuid ORDER BY MAX(me.time) DESC
 ```
 
-To count all the unread messages, I had to add the following to the query: 
+To count all the unread messages, I had to add the following to the query:
+
 ```sql
 COUNT(CASE WHEN me.seen = 0 AND me.recipient=uuid THEN 1 END) as unread
 ```
@@ -131,6 +133,7 @@ The code snippet above counts all the messages with the "seen" field set to 0 th
 
 
 Together the query looks like this:
+
 ```sql
 SELECT BIN_TO_UUID(uuid) as uuid, label, 
 COUNT(CASE WHEN me.seen = 0 AND me.recipient=uuid THEN 1 END) as unread 
@@ -142,6 +145,7 @@ GROUP BY ma.uuid ORDER BY MAX(me.time) DESC
 
 #### /getDistinctSenders
 This endpoint is responsible for getting all the conversations from the given qr code. The response includes the uuid of the sender, the nickname of the sender (a random three word slug so an ugly uuid string isn't shown on the ui), the time of the latest message, and the message content of the lates message (so the user can see a preview of the latest message). The three word slug comes from a table that maps the uuid of the person who scans the qr code with a nickname. The schema just includes the binary(16) datatype for the uuid and a varchar for the nickname field. Here is the SQL query I use to get all the response data:
+
 ```sql
 SELECT DISTINCT BIN_TO_UUID(m.sender) AS sender, su.nickname, 
 MAX(m.time) AS latest_message_time, 
@@ -156,11 +160,13 @@ GROUP BY m.sender ORDER BY latest_message_time DESC, sender
 ```
 
 I added this to get the number of unread messages for each conversation:
+
 ```sql
 COUNT(CASE WHEN m.seen = 0 AND m.recipient = UUID_TO_BIN(?) THEN 1 END) AS unread
 ```
 
 Here is the complete query I use:
+
 ```sql
 SELECT DISTINCT BIN_TO_UUID(m.sender) AS sender, su.nickname, 
 MAX(m.time) AS latest_message_time, 
@@ -297,11 +303,11 @@ To communicate the amount of unread notifications to the user I had to make some
 
 This is what the home screen looked like before I added the read receipt functionality.
 
-![homescreen_no_unread_messages](/assets/images/qarmagnetreadreceipts/home_screen_no_unread_messages.png){:height="599px"}
+![homescreen_no_unread_messages](/assets/images/qarmagnetreadreceipts/home_screen_no_unread_messages.png){:height="599px" style="display:block; margin-left:auto; margin-right:auto"}
 
 I decided to show unread messages per qr code with a bubble in the top right corner that sums up all the unread messages to that qr code. I styled it like ios styles their push notifications. This is what the changes look like visually.
 
-![homescreen_with_unread_messages](/assets/images/qarmagnetreadreceipts/home_with_unread_messages.png){:height="599px"}
+![homescreen_with_unread_messages](/assets/images/qarmagnetreadreceipts/home_with_unread_messages.png){:height="599px" style="display:block; margin-left:auto; margin-right:auto"}
 
 As for the code changes, it was relatively straight forward. I started by adding a View with a border radius that would turn it into a circle. I added text inside the View so that the user can see how many unread messages they have. Here is the code snippet of the React Native code that generates the QR Code tile on the home screen.
 
@@ -352,15 +358,15 @@ The View is in curly braces so that when ``unread`` is 0 the bubble is hidden. A
 ### Inbox screen changes
 This is what the inbox screen looked like before I updated it to add a visual cue for unread messages.
 
-![inbox_view_no_unread](/assets/images/qarmagnetreadreceipts/inbox_view_no_unread.png){:height="599px"}
+![inbox_view_no_unread](/assets/images/qarmagnetreadreceipts/inbox_view_no_unread.png){:height="599px" style="display:block; margin-left:auto; margin-right:auto"}
 
 To add the visual cue I thought of two approaches. 
 
-![inbox_view_mockup_1](/assets/images/qarmagnetreadreceipts/inbox_view_mockup_1.png){:height="599px"}
+![inbox_view_mockup_1](/assets/images/qarmagnetreadreceipts/inbox_view_mockup_1.png){:height="599px" style="display:block; margin-left:auto; margin-right:auto"}
 
 and
 
-![inbox_view_mockup_2](/assets/images/qarmagnetreadreceipts/inbox_view_mockup_2.png){:height="599px"}
+![inbox_view_mockup_2](/assets/images/qarmagnetreadreceipts/inbox_view_mockup_2.png){:height="599px" style="display:block; margin-left:auto; margin-right:auto"}
 
 I decided to go with the second option because I thought it was a clever use of the message icon I had already implemented. I also didn't want to clutter up the ui. 
 
