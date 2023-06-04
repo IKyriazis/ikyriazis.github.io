@@ -362,11 +362,9 @@ This is what the inbox screen looked like before I updated it to add a visual cu
 
 To add the visual cue I thought of two approaches. 
 
-![inbox_view_mockup_1](/assets/images/qarmagnetreadreceipts/inbox_view_mockup_1.png){:height="599px" style="display:block; margin-left:auto; margin-right:auto"}
+![inbox_view_mockup_1](/assets/images/qarmagnetreadreceipts/inbox_view_mockup_1.png){:height="599px"}
 
-and
-
-![inbox_view_mockup_2](/assets/images/qarmagnetreadreceipts/inbox_view_mockup_2.png){:height="599px" style="display:block; margin-left:auto; margin-right:auto"}
+![inbox_view_mockup_2](/assets/images/qarmagnetreadreceipts/inbox_view_mockup_2.png){:height="599px"}
 
 I decided to go with the second option because I thought it was a clever use of the message icon I had already implemented. I also didn't want to clutter up the ui. 
 
