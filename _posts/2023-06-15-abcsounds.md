@@ -38,7 +38,7 @@ I had the pretty letters and all the audio files. All that was left was to put e
 
 To serve the application, I used a simple nodejs express server running on my $5 a month linode debian vm. I know, I know, why am I running a nodejs express server instead of using nginx or apache to serve the static files? Because I was too lazy to write an nginx directive to route the requests to the right directory. 
 
-Plus, I already have a system set up with my numerous other side projects that all use cloudflare to mask my the IP and to turn everything into https. Letsencrypt for the ssl certificates, and nodejs to host apis or static files. Nginx for the reverse proxy. Maybe once I feel like it, or something goes viral I'll do it the right way and serve static files through nginx. But until then I'll deal with the minuscule performance consequences.
+Plus, I already have a system set up with my numerous other side projects that all use cloudflare to mask my IP and to turn everything into https. Letsencrypt for the ssl certificates, and nodejs to host apis or static files. Nginx for the reverse proxy. Maybe once I feel like it, or something goes viral I'll do it the right way and serve static files through nginx. But until then I'll deal with the minuscule performance consequences.
 
 So now that I had this whole thing built it was time for the cousins to go home. Chrysa wasn't able to use it that night. But from what I've heard she used [abcsounds](https://abcsounds.ioannis.ky) around two weeks ago to read another book with minimal help.
 
