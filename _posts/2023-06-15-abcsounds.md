@@ -36,7 +36,7 @@ Christianos and Caleb had the sound bites down, now I needed pretty graphics for
 
 I had the pretty letters and all the audio files. All that was left was to put everything together using good ol' html/css/javascript. I was rushing to put everything together so I thought this stack was perfect for a simple and stateless application. I didn't want the overhead of using a javascript framework to make this simple app. Although, eventually I'd like to repeat this site in Svelte just to get some exposure to the framework, as I already have experience with Angular and React.
 
-To serve the application, I used a simple nodejs express server running on my $5 a month linode debian vm. I know, I know, why am I running a nodejs express server instead of using nginx or apache to serve the static files? Because I was too lazy to write an nginx directive to route the requests to the right directory. 
+To serve the application, I used a simple nodejs express server running on my $5 a month linode ubuntu vm. I know, I know, why am I running a nodejs express server instead of using nginx or apache to serve the static files? Because I was too lazy to write an nginx directive to route the requests to the right directory. 
 
 Plus, I already have a system set up with my numerous other side projects that all use cloudflare to mask my IP and to turn everything into https. Letsencrypt for the ssl certificates, and nodejs to host apis or static files. Nginx for the reverse proxy. Maybe once I feel like it, or something goes viral I'll do it the right way and serve static files through nginx. But until then I'll deal with the minuscule performance consequences.
 
