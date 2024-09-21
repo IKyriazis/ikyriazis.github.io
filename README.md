@@ -60,6 +60,13 @@ and lot of other options, like width, projects, pages, read-time, tags, related 
 
 Check the [FAQ](./FAQ.md) if you have any doubt or problem.
 
+# Build instructions
+rvm use ruby-2.7.5 
+bundle install
+bundle exec jekyll build
+then copy folder to box
+
+
 ---
 ## License
 
