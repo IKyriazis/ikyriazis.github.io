@@ -27,7 +27,51 @@ The one thing the membership fee plugin lacks is a payment processer integration
 This tutorial assumes you already have [Admidio](https://www.admidio.org/dokuwiki/doku.php?id=en:2.0:installation) and the membership fee [plugin](https://www.admidio.org/dokuwiki/doku.php?id=en:plugins:mitgliedsbeitrag) already installed. You also need a Stripe account with at least one subscription product defined. If anything is confusing here reach out to me.
 
 ## Add a "Donate Now" link to the modules sidebar.
-<!-- add image of link -->
+
+We have to manually edit the smarty template files to add this button.
+
+![donate_now_button](/assets/images/admidio-stripe/donate_now_button.png)
+
+The file that you have to modify is in you admidio installation folder. The exact file is ```/admidio/adm_themes/simple/templates/sys-template-parts/menu.main.tpl```
+
+The file must look like this:
+
+NOTE: Replace <YOURURL> with your url.
+
+```Smarty
+{* Create the sidebar menu out of the navigation menu array *}
+<div class="admidio-headline-mobile-menu d-md-none p-2">
+    <span class="text-uppercase">{$l10n->get("SYS_MENU")}</span>
+    <button class="btn btn-link d-md-none collapsed float-end" type="button" data-bs-toggle="collapse"
+            data-bs-target="#admidio-main-menu" aria-controls="admidio-main-menu" aria-expanded="false">
+        <i class="bi bi-list"></i>
+    </button>
+</div>
+<nav class="admidio-menu-list collapse" id="admidio-main-menu">
+    {foreach $menuNavigation as $menuGroup}
+        <div class="admidio-menu-header">{$menuGroup.name}</div>
+        <ul class="nav admidio-menu-node flex-column mb-0">
+            {foreach $menuGroup.items as $menuItem}
+                <li class="nav-item">
+                    <a id="{$menuItem.id}" class="nav-link" href="{$menuItem.url}">
+                        <i class="{$menuItem.icon}"></i>{$menuItem.name}
+                        {if $menuItem.badgeCount > 0}
+                            <span class="badge bg-light text-dark">{$menuItem.badgeCount}</span>
+                        {/if}
+                    </a>
+                </li>
+            {/foreach}
+            {if $menuGroup.name === "Modules"}
+                <li class="nav-item">
+                    <a id="PAY_NOW" class="nav-link" href="https://<YOURURL>?id={$currentUser->getValue('usr_id')}">
+                        <i class="fas fa-dollar-sign fa-fw"></i>Pay Now
+                    </a>
+                </li>
+            {/if}
+        </ul>
+    {/foreach}
+</nav>
+```
 
 ## Make the Payment Portal
 
@@ -376,13 +420,20 @@ This section is two parts because we have to tell Stripe to send us an event to 
 
 #### Create Webhook in Stripe
 
+Go to the Stripe webhooks [page](https://dashboard.stripe.com/webhooks). Since we are using the test key, we have to create the webhook in the test environment. When we are ready for production, we'll have to recreate the webhook in the production side.
+
+Click "create an event destination" and fill in the form with the data matching the following image. Remember to replace club specific data, like the url.
+
+![webhook_data](/assets/images/admidio-stripe/webhook.png)
+
+Once all that is filled out you can create the webhook. Now we have to create the endpoint to receive the event on the payment portal side. This endpoint will update the paid status in the member database.
 
 
 #### Create Webhook Endpoint in Payment Portal
 
 Create a new file in the ```src/pages/api``` folder called ```webhook.js```. Again fill the contents with the following code, replacing the club specific data.
 
-Note: You will need to add ```Endpoint_SECRET=""``` to the ```.env``` file with the endpoint secret from the webhook menu in Stripe.
+Note: You will need to add ```ENDPOINT_SECRET=""``` to the ```.env``` file with the endpoint secret from the webhook menu in Stripe.
 
 ```javascript
 import Stripe from 'stripe';
@@ -454,6 +505,17 @@ export async function POST({ request }) {
 }
 ```
 
+## Install Dependencies
+
+We use mysql2 library and Stripe sdk. Install them like this:
+
+```bash
+npm i mysql2
+npm i stripe
+```
+
 # Conclusion
 
-So now you can 
+So now you should have a working payment portal. When you run ```npm start``` everything should start up. Congrats.
+
+NOTE: Everything in this tutorial was configured for testing. In Production replace all instances of STRIPE_TEST_KEY with STRIPE_LIVE_KEY and make sure all products exist on production side of Stripe.
