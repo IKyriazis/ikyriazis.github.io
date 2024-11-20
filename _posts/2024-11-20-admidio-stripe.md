@@ -372,4 +372,88 @@ When you run this in production, make sure that you change all instances of STRI
 
 ### Create Stripe Webhook Endpoint To Update Admidio Database
 
-##### Connect to Admidio Database
+This section is two parts because we have to tell Stripe to send us an event to our webhook endpoint when the transaction is completed.
+
+#### Create Webhook in Stripe
+
+
+
+#### Create Webhook Endpoint in Payment Portal
+
+Create a new file in the ```src/pages/api``` folder called ```webhook.js```. Again fill the contents with the following code, replacing the club specific data.
+
+Note: You will need to add ```Endpoint_SECRET=""``` to the ```.env``` file with the endpoint secret from the webhook menu in Stripe.
+
+```javascript
+import Stripe from 'stripe';
+import mysql from 'mysql2/promise';
+
+const stripe = new Stripe(import.meta.env.STRIPE_TEST_KEY);
+
+const endpointSecret = import.meta.env.ENDPOINT_SECRET;
+
+const connection = await mysql.createConnection({
+    host: import.meta.env.HOST,
+    user: import.meta.env.USERNAME,
+    database: import.meta.env.DATABASE,
+    password: import.meta.env.MYSQL_PASS
+});
+
+export async function POST({ request }) {
+
+    let text = await request.text();
+
+    if (endpointSecret) {
+        // Get the signature sent by Stripe
+        const signature = request.headers.get('stripe-signature');
+        try {
+
+            const event = stripe.webhooks.constructEvent(
+                text,
+                signature,
+                endpointSecret
+            );
+
+            if (event.type === "checkout.session.completed") {
+                console.log(event.data.object);
+
+                let user_id = event.data.object.client_reference_id;
+
+                // db field for payment date is 23
+                // update it for current user id to todays date
+
+                try {
+                    let date = new Date().toISOString().slice(0, 10);
+                    const [results] = await connection.query(
+                        'INSERT INTO adm_user_data (usd_usr_id, usd_usf_id, usd_value) VALUES (' + user_id + ', 23, "' + date + '") ON DUPLICATE KEY UPDATE usd_value = "' + date + '";'
+                    );
+
+                } catch (err) {
+                    console.log(err);
+                    return new Response(JSON.stringify({
+                        message: "server error"
+                    }, {
+                        status: 500,
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    }));
+                }
+
+                return new Response(JSON.stringify({
+                    received: true
+                }));
+            }
+
+        } catch (err) {
+            console.log(`⚠️  Webhook signature verification failed.`, err.message);
+            return new Response({status: 400});
+        }
+    }
+
+}
+```
+
+# Conclusion
+
+So now you can 
