@@ -232,7 +232,143 @@ if (response.message === "success") {
 
 ### Create Endpoint to Redirect To Stripe Checkout Session
 
-#### Connect to Admidio Database
+Now create a new file in the project under ```src/pages/api```, name it ```get-data.js```. Fill it in with the following. Again, read the comments and replace the data with your club specific info.
+
+```javascript
+// Get the client
+import mysql from 'mysql2/promise';
+import Stripe from 'stripe';
+const stripe = new Stripe(import.meta.env.STRIPE_TEST_KEY);
+
+const connection = await mysql.createConnection({
+    host: import.meta.env.HOST,
+    user: import.meta.env.USERNAME,
+    database: import.meta.env.DATABASE,
+    password: import.meta.env.MYSQL_PASS
+});
+
+export async function POST({ request }) {
+    const body = await request.json();
+
+    if (!body.id) {
+        return new Response(JSON.stringify({
+            message: "no id"
+        }, {
+            status: 400,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }));
+    }
+
+    try {
+        // verify that user exists
+        const [result] = await connection.query('SELECT usr_login_name FROM adm_users WHERE usr_id = ' + body.id);
+
+        if (result.length === 0) {
+            return new Response(JSON.stringify({
+                message: "no user with that id found"
+            }, {
+                status: 400,
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }));
+        }
+
+
+
+        // get payment date usf_id = 23
+        let [paymentDate] = await connection.query("SELECT usd_value FROM adm_user_data WHERE usd_usr_id = " + body.id + " AND usd_usf_id = 23");
+    
+        if (paymentDate.length > 0) {
+
+            console.log(paymentDate[0].usd_value);
+
+            // also check if membership has been paid within the year
+            const today = new Date();
+            const oneYearAgo = new Date(new Date().setFullYear(new Date().getFullYear() - 1));
+
+            paymentDate = new Date(paymentDate[0].usd_value);
+
+            console.log(today, oneYearAgo, paymentDate);
+
+            if (paymentDate >= oneYearAgo) {
+                return new Response(JSON.stringify({
+                    message: "already paid"
+                }, {
+                    status: 400,
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }));
+            }
+
+        }
+
+        // get payment amount
+        const [paymentAmount] = await connection.query("SELECT usd_value FROM adm_user_data WHERE usd_usr_id = " + body.id + " AND usd_usf_id = 24");
+        const membershipCost = paymentAmount[0].usd_value;
+        
+        // !!IMPORTANT!!! here one stripe price must be selected, I have this if statement because I have two membership tiers
+        let membershipProduct;
+        if (membershipCost === "150") {
+            membershipProduct = "<SET YOUR PRICE ID>";
+        }
+        else if (membershipCost === "200") {
+            membershipProduct = "<SET YOUR PRICE ID>";
+        }
+        // if paid already, tell them they already paid
+        // if they didnt pay bring them to stripe checkout
+        console.log(membershipProduct);
+
+        const stripesession = await stripe.checkout.sessions.create({
+            client_reference_id: body.id,
+            line_items: [{price: membershipProduct, quantity: 1}],
+            mode: "subscription",
+            success_url: "https://<ADD YOUR OWN URL>/?id=" + body.id,
+            cancel_url: "<WHERE DO YOU WANT USERS TO GO IF THEY CANCEL CHECKOUT>"
+        })
+
+
+
+        return new Response(JSON.stringify({
+            message: "success",
+            username: result[0].usr_login_name,
+            paymentDate: paymentDate.length > 0 ? paymentDate[0].usd_value : undefined,
+            paymentAmount: paymentAmount[0].usd_value,
+            stripe: stripesession.url
+        }, {
+            status: 200,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }));
+    }
+    catch (err) {
+        console.log(err);
+        return new Response(JSON.stringify({
+            message: "server error"
+        }, {
+            status: 500,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }));
+    }
+}
+```
+
+You will also need to create a .env file with the following credentials:
+```
+STRIPE_TEST_KEY=""
+STRIPE_LIVE_KEY=""
+HOST=""
+USERNAME=""
+DATABASE=""
+MYSQL_PASS=""
+```
+When you run this in production, make sure that you change all instances of STRIPE_TEST_KEY to STRIPE_LIVE_KEY.
 
 ### Create Stripe Webhook Endpoint To Update Admidio Database
 
