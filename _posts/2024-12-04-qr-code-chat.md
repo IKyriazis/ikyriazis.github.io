@@ -1,7 +1,7 @@
 ---
-title: "QR Code Chat - How to Send and Receive Messages Through a QR Code"
+title: "QR Code Chat"
 layout: post
-date: 2024-12-04 07:00
+date: 2024-12-03 07:00
 image: 
 headerImage: true
 projects: true
